@@ -40,7 +40,7 @@ class CacheCountry {
         self::$cache->addCountry($countryMap);
     }
     
-    public function destroyCache(){
+    public static function destroyCache(){
         self::$cache->destroyCache();
     }
     

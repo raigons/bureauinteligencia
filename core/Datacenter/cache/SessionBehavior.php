@@ -7,7 +7,7 @@
 define("start", "start");
 class SessionBehavior implements CacheBehavior{
     
-    private $timeout = 10; 
+    private $timeout = 600; 
         
     public function SessionBehavior(){
         if(!isset($_SESSION[CacheBehavior::countries])){
