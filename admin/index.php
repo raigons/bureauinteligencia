@@ -8,6 +8,14 @@ require_once "../core/DataBase/Connection.php";
 require_once "../core/Exceptions/FileNotFoundException.php";
 require_once "../core/Exceptions/LoginException.php";
 require_once "../util/Maps/HashMap.php";
+
+//cache files
+require_once '../core/Datacenter/CountryMap.php';
+//require_once '../core/Datacenter/cache/CacheBehavior.php';
+//require_once '../core/Datacenter/cache/MemcachedBehavior.php';
+//require_once '../core/Datacenter/cache/SessionBehavior.php';
+require_once '../core/Datacenter/cache/CacheCountry.php';
+
 require_once "../util/SessionAdmin.php";
 require_once '../util/Services_JSON.php';
 require_once '../util/StringManager.php';

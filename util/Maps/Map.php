@@ -23,5 +23,10 @@ interface Map {
     * @return ArrayObject
     */
    public function values();
+   
+    /**
+     * @return array 
+     */
+    public function keys();
 }
 ?>

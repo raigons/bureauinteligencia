@@ -57,6 +57,17 @@ class HashMap implements Map {
     public function values(){
         return new ArrayObject($this->map->getArrayCopy());
     }
+    
+    /**
+     * @return array 
+     */
+    public function keys() {
+        $keys = array();
+        foreach($this->map as $key => $item){
+            array_push($keys, $key);
+        }
+        return $keys;
+    }
 
 }
 ?>

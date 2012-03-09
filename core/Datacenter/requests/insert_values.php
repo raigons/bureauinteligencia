@@ -26,7 +26,22 @@ if(RequestsPatterns::postParamsSetted('subgroup', 'font', 'coffetype', 'variety'
         }        
 
         $repository = new DatacenterDao(Connection::connect());
-        $service = new DatacenterService($repository, new CountryMap());
+        
+        //$countryMap = new CountryMap();
+        //$cache = new Memcached();
+        //$cache->addServer("localhost", 11211);
+        CacheCountry::setCacheBehavior(SessionAdmin::getCacheBehavior());
+        $cache = CacheCountry::getCountries();
+        //$destiny = $cache->get("destiny")->values();
+        //$destiny = $cache->getDestinies()->values();        
+        //$origin = $cache->get("origin")->values();
+        //$origin = $cache->getOrigins()->values();
+        //
+        
+        //$countryMap->addDestinies($destiny);
+        //$countryMap->addOrigins($origin);
+        
+        $service = new DatacenterService($repository, $cache);//$countryMap);
         $statistic = new Statistic();
         //$jsonResponse = new JsonResponse();
         $grouper = new DataGrouper();
@@ -37,7 +52,6 @@ if(RequestsPatterns::postParamsSetted('subgroup', 'font', 'coffetype', 'variety'
         try{
             $inputFile = new ExcelInputFile($reader);
             $response = $controller->saveValues($inputFile, $subgroup, $font, $destiny, $coffeType, $variety,$typeCountry);
-            //print_r($jsonResponse->response(false, "buceta vila")->withoutHeader()->serialize());
             print_r($response);
         }catch(WrongFormatException $exception){
             print_r($jsonResponse->response(false, $exception->getMessage())->withoutHeader()->serialize());

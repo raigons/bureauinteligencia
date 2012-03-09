@@ -1,7 +1,6 @@
 <?php
     $_POST['fromAdmin'] = true;    
     require_once '../util/JsonResponse.php';
-    require_once '../core/Datacenter/CountryMap.php';
     require_once '../core/Datacenter/requests/requires_build.php';
     require_once '../core/GenericHandler.php';
     require_once '../core/Datacenter/requests/DatacenterHelper.php';

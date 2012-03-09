@@ -20,16 +20,21 @@
             $message_error = "Falha na inserção do país"; 
             try{
                 if($typeCountry == 'origin'){
-                    if($controller->createNewOriginCountry($country))
+                    if($controller->createNewOriginCountry($country)){
+                        $countryToCache = $controller->getCountryByName($country,$typeCountry);
+                        
+                        cacheCountry($countryToCache, $typeCountry);
                         print_r($json->response (true, $message)->serialize ());
-                    else
+                    }else
                         print_r($json->response (true, $message_error)->serialize ());
                 }else{
-                    if($controller->createNewDestinyCountry($country))
+                    if($controller->createNewDestinyCountry($country)){
+                        $countryToCache = $controller->getCountryByName($country,$typeCountry);            
+                        cacheCountry($countryToCache, $typeCountry);
                         print_r($json->response (true, $message)->serialize ());
-                    else
+                    }else
                         print_r($json->response (true, $message_error)->serialize ());
-                }                
+                }
             }catch(Exception $err){
                 print_r($json->response(false, $err->getMessage())->serialize());
             }
@@ -39,4 +44,10 @@
     }else{
         print_r($json->response(false, "Parâmetros não configurados. Comunique o desenvolvedor")->serialize());
     }    
+?>
+<?
+function cacheCountry(Country $countryToCache, $type){
+ CacheCountry::setCacheBehavior(SessionAdmin::getCacheBehavior());
+ CacheCountry::addCountry($countryToCache, $type);
+}
 ?>

@@ -11,13 +11,18 @@
     $type = $_REQUEST['type_country'];
     
     $list = new ArrayObject();
-    $table_type = "";
+    $table_type = "";    
+    CacheCountry::setCacheBehavior(SessionAdmin::getCacheBehavior());
+    //CacheCountry::cacheCountries();
+    $countries = CacheCountry::getCountries();
     if($type == 'origin'){
         $table_type = "Origem";
-        $list = $controller->listOrigins();
+        $list = $countries->getOrigins()->values();
+        //$list = $controller->listOrigins();
     }elseif($type == 'destiny'){
         $table_type = "Destino";
-        $list = $controller->listDestinies();
+        $list = $countries->getDestinies()->values();
+        //$list = $controller->listDestinies();
     }
 ?>
 <?if($list->count() >  0):?>
@@ -42,7 +47,8 @@
         <tbody>
             <?foreach($list as $country):?>
             <tr>
-                <td><?echo utf8_encode($country->name())?></td>
+                <!--<td><?//echo utf8_encode($country->name())?></td>-->
+                <td><?echo $country->name()?></td>
                 <td><?echo $table_type?></td>
                 <td>
                     <a class="delete" href="<?echo LinkController::getBaseURL()?>/admin/datacenter/country/delete" id="<?echo $country->id();?>">
@@ -63,4 +69,3 @@
 <?else:?>
 <strong>Nenhum país encontrado</strong>
 <?endif;?>
-

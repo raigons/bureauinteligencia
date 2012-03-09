@@ -40,8 +40,6 @@ class DatacenterController {
     
     private $asJson = false;
     
-    private $chartType;
-    
     /**
      * @var Report
      */
@@ -56,8 +54,6 @@ class DatacenterController {
         $this->jsonResponse = $jsonResponse;
         $this->grouper = $grouper;        
         $this->builderFactory = $factory;
-        
-        //$this->report = $report;
     }
     
     public function setReport(Report $report){
@@ -91,12 +87,14 @@ class DatacenterController {
     //POST ://datacenter/save
     public function saveValues(ExcelInputFile $excelInputFile, $subgroup, $font, $destiny, $coffeType, $variety, $typeCountry = null){
         if(SessionAdmin::isLogged()){
+            CacheCountry::setCacheBehavior(SessionAdmin::getCacheBehavior());
             try{
                 if(!is_null($typeCountry)){
                     $countries = $excelInputFile->getValuesOfColumn(1);
-                    if(!$this->countriesSelectedAreCorrect($typeCountry, $countries)){
-                        $nameCountries = $this->countriesAsString($countries);                        
-                        $message = "Os países presentes na planilha ($nameCountries) não correspondem ao grupo que você selecionou";
+                    $wrongSelected = $this->countriesSelectedAreCorrect($typeCountry, $countries);
+                    if(sizeof($wrongSelected) > 0){
+                        $nameOfWrongCountries = $this->countriesAsString($wrongSelected);
+                        $message = "Os seguintes países presentes na planilha (".utf8_encode($nameOfWrongCountries).") não correspondem ao grupo que você selecionou";
                         throw new WrongFormatException($message);
                     }
                 }
@@ -116,17 +114,19 @@ class DatacenterController {
     
     private function countriesAsString(array $countries){
         $string = "";
-        foreach($countries as $i => $country){
+        $i = 0;
+        foreach($countries as $country){
             if($i > 0){
                 $string .= ", ";
             }
             $string .= $country;
+            $i++;
         }
         return $string;
     }
     
     private function countriesSelectedAreCorrect($typeCountry, $countries){
-        return sizeof(array_diff($countries, $this->getCountriesSelected($typeCountry))) == 0;
+        return (array_diff($countries, $this->getCountriesSelected($typeCountry)));
     }
     
     private function getCountriesSelected($typeCountry){
@@ -137,12 +137,20 @@ class DatacenterController {
     }
     
     private function originCountries(){
-        $countries = array("Brasil", "Colômbia", "Colombia", "Vietnã", "Vietna", "Guatemala", "Peru", "Quênia", "Quenia", "Outros");
+        //$countries = array("Brasil", "Colômbia", "Colombia", "Vietnã", "Vietna", "Guatemala", "Peru", "Quênia", "Quenia", "Outros");                
+        $countries = CacheCountry::getCountries()->getOrigins()->keys();
+        foreach($countries as $i => $country){
+            $countries[$i] = utf8_decode($country);
+        }
         return $countries;
     }
     
-    private function destinyCountries(){
-        $countries = array("EUA", "França", "Franca", "Alemanha", "Canadá", "Canada", "Itália", "Italia", "Japão", "Japao", "Outros");
+    private function destinyCountries(){        
+        //$countries = array("EUA", "França", "Franca", "Alemanha", "Canadá", "Canada", "Itália", "Italia", "Japão", "Japao", "Outros");        
+        $countries = CacheCountry::getCountries()->getDestinies()->keys();
+        foreach($countries as $i => $country){
+            $countries[$i] = utf8_decode($country);
+        }
         return $countries;
     }
     

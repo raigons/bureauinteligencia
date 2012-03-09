@@ -33,7 +33,8 @@ abstract class Param {
         if($this->id != null)
             $array['id'] = $this->id();
         if($this->name != null)
-            $array['name'] = utf8_encode($this->name());
+            //$array['name'] = utf8_encode($this->name());
+            $array['name'] = ($this->name());
         return $array;
     }
     

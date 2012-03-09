@@ -76,14 +76,14 @@ class GenericDao {
         return $this->getObject("country", true, "type_country", "destiny");
     }
     
-    private function countryExists(Country $country, $typeCountry){
+    public function countryExists(Country $country, $typeCountry){
         $query = $this->session->prepare("SELECT * FROM country WHERE name = :name AND type_country = :type");
         $query->bindParam(":name", $country->name());
         $query->bindParam(":type", $typeCountry);
         $query->execute();        
         return $query->rowCount() > 0;
     }
-    
+
     public function createCountry(Country $country, $typeCountry){
         if($this->countryExists($country, $typeCountry))
                 throw new Exception("O país ".$country->name ()." já existe!");
@@ -91,7 +91,7 @@ class GenericDao {
         $query = $this->session->prepare($sql);
         $query->bindParam(":name", utf8_decode($country->name()));
         $query->bindParam(":type", $typeCountry);
-        $query->execute();
+        $query->execute();      
         return $query->rowCount() > 0;        
     }
     
@@ -112,10 +112,22 @@ class GenericDao {
         $query->execute();
         $country = $query->fetch(PDO::FETCH_ASSOC);
         if($query->rowCount() > 0){
-           return new Country($country['name'], $country['id']);
+           return new Country(utf8_encode($country['name']), $country['id']);
         }
         return null;
     }
+    
+    public function getCountryByName(Country $country,$type){
+        $sql = "SELECT * FROM country WHERE name = :name AND type_country = :type LIMIT 1";
+        $query = $this->session->prepare($sql);
+        $query->bindParam(":name", utf8_decode($country->name()));
+        $query->bindParam(":type", $type);
+        
+        $query->execute();
+        $country = $query->fetch(PDO::FETCH_ASSOC);
+        return new Country(utf8_encode($country['name']), $country['id']);        
+    }
+    
     public function getFonts() {
         return $this->getObject("font");
     }
@@ -173,6 +185,8 @@ class GenericDao {
     }
     
     private function buildObject($type, $object){        
+        $name = utf8_encode($object['name']);
+        $id = $object['id'];
         switch($type){
             case "area": return new Area($object['name'], $object['id']); break;
             case "subarea": return new SubArea($object['name'], $object['id']); break;
@@ -180,12 +194,13 @@ class GenericDao {
             case "city": return new City($object['nome'], $object['id']); break;
             case "activities": return new Activity($object['name'], $object['id']); break;
             case "publication_type": return new PublicationType($object['name'], $object['id']); break;
-            case "groups": return new Group($object['name'], $object['id']); break;
-            case "subgroup": return new Subgroup($object['name'], $object['id']); break;
-            case "variety": return new Variety($object['name'], $object['id']); break;
-            case "coffetype": return new CoffeType($object['name'], $object['id']); break;
-            case "country": return new Country($object['name'], $object['id']); break;
-            case "font": return new Font($object['name'], $object['id']); break;
+            
+            case "groups": return new Group($name, $id); break;
+            case "subgroup": return new Subgroup($name, $id); break;
+            case "variety": return new Variety($name, $id); break;
+            case "coffetype": return new CoffeType($name, $id); break;
+            case "country": return new Country($name, $id); break;
+            case "font": return new Font($name, $id); break;
         }
     }
 }

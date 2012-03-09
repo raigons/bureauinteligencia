@@ -91,13 +91,17 @@ class Controller {
     public function getCountry($country_id) {
         return $this->dao->getCountry($country_id);
     }
-
+    
+    public function getCountryByName(Country $country, $type){
+        return $this->dao->getCountryByName($country, $type);
+    }
+    
     public function editCountry(Country $object) {
         return $this->dao->editCountry($object);
     }
     
     public function listOrigins(){
-      return $this->dao->getOriginCountries();  
+      return $this->dao->getOriginCountries();
     }
     
     public function listDestinies(){

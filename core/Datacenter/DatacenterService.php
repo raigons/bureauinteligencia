@@ -32,18 +32,21 @@ class DatacenterService {
         $dataToSave = new ArrayObject();
         foreach($countries as $country){
             if($typeCountry == 'origin'){
-                $origin = $this->countryMap->getCountryId($country);
+                //$origin = $this->countryMap->getCountryId($country);
+                $origin = CacheCountry::getCountries()->getOrigins()->get(utf8_encode($country))->id();
                 if(is_null($origin)){
                     $origin = $this->countryMap->getOuthersForOrigin();
                 }
                 $destiny = 0;
             }elseif($typeCountry == 'destiny'){
-                $destiny = $this->countryMap->getCountryId($country);
+                //$destiny = $this->countryMap->getCountryId($country);
+                $destiny = CacheCountry::getCountries()->getDestinies()->get(utf8_encode($country))->id();
                 if(is_null($destiny))
                     $destiny = $this->countryMap->getOthersForDestiny();
                 $origin = 0;
             }else{
-                $origin = $this->countryMap->getCountryId($country);
+                //$origin = $this->countryMap->getCountryId($country);
+                $origin = CacheCountry::getCountries()->getOrigins()->get(utf8_encode($country))->id();
             }
             $dataParam = new DataParam($subgroup,$font,$type,$variety,$origin,$destiny);
             $dataOfCurrentCountry = $this->getValuesWithSimpleFilter($dataParam);
