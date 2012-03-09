@@ -7,22 +7,23 @@
     $dao = new GenericDao(Connection::connect());
     $controller = new Controller($dao);
     
-    $page = $_REQUEST['page'];
+    //$page = $_REQUEST['page'];
     $type = $_REQUEST['type_country'];
     
     $list = new ArrayObject();
     $table_type = "";    
-    CacheCountry::setCacheBehavior(SessionAdmin::getCacheBehavior());
+    //CacheCountry::setCacheBehavior(SessionAdmin::getCacheBehavior());
     //CacheCountry::cacheCountries();
-    $countries = CacheCountry::getCountries();
+    //$countries = CacheCountry::getCountries();
+    //print_r($countries);
     if($type == 'origin'){
         $table_type = "Origem";
-        $list = $countries->getOrigins()->values();
-        //$list = $controller->listOrigins();
+        //$list = $countries->getOrigins()->values();
+        $list = $controller->listOrigins();
     }elseif($type == 'destiny'){
         $table_type = "Destino";
-        $list = $countries->getDestinies()->values();
-        //$list = $controller->listDestinies();
+        //$list = $countries->getDestinies()->values();
+        $list = $controller->listDestinies();
     }
 ?>
 <?if($list->count() >  0):?>

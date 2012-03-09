@@ -12,6 +12,7 @@ require_once '../core/generics/Controller.php';
 <h3>
     <?CacheCountry::setCacheBehavior(SessionAdmin::getCacheBehavior());?>
     <?CacheCountry::cacheCountries();?>
+    <?//print_r(CacheCountry::getCountries());?>
 </h3>
 
 <div class="inside-item-admin">
