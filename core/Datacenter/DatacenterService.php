@@ -27,7 +27,7 @@ class DatacenterService {
         $this->statistic = $statistic;
     }
     
-    public function insertValues(ExcelInputFile $excelInputFile, $subgroup, $destiny, $type, $variety, $font, $typeCountry = null) {
+    public function insertValues(ExcelInputFile $excelInputFile, $subgroup, $destiny, $type, $variety, $font, $typeCountry = null, $internationalTrade = false) {
         $countries = $excelInputFile->getValuesOfColumn(1);        
         $dataToSave = new ArrayObject();
         foreach($countries as $country){
@@ -36,12 +36,12 @@ class DatacenterService {
                 if(is_null($origin)){
                     $origin = $this->countryMap->getOuthersForOrigin();
                 }
-                $destiny = 0;
+                if(!$internationalTrade) $destiny = 0;
             }elseif($typeCountry == 'destiny'){
                 $destiny = CacheCountry::getCountries()->getDestinies()->get(utf8_encode($country))->id();
                 if(is_null($destiny))
                     $destiny = $this->countryMap->getOthersForDestiny();
-                $origin = 0;
+                if(!$internationalTrade) $origin = 0;                
             }else{
                 $origin = CacheCountry::getCountries()->getOrigins()->get(utf8_encode($country))->id();
             }

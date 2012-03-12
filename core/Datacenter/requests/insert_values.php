@@ -17,9 +17,12 @@ if(RequestsPatterns::postParamsSetted('subgroup', 'font', 'coffetype', 'variety'
         $font = $_POST['font'];
         $coffeType = $_POST['coffetype'];
         $variety = $_POST['variety'];
+        
         if($variety == "none") $variety = 0;
         $destiny = $_POST['destiny'];
-        $typeCountry = null;
+        
+        $typeCountry = null;        
+        
         if(isset($_POST['typeCountry'])){
             $typeCountry = $_POST['typeCountry'];
             $destiny = 0;
@@ -27,19 +30,8 @@ if(RequestsPatterns::postParamsSetted('subgroup', 'font', 'coffetype', 'variety'
 
         $repository = new DatacenterDao(Connection::connect());
         
-        //$countryMap = new CountryMap();
-        //$cache = new Memcached();
-        //$cache->addServer("localhost", 11211);
         CacheCountry::setCacheBehavior(SessionAdmin::getCacheBehavior());
         $cache = CacheCountry::getCountries();
-        //$destiny = $cache->get("destiny")->values();
-        //$destiny = $cache->getDestinies()->values();        
-        //$origin = $cache->get("origin")->values();
-        //$origin = $cache->getOrigins()->values();
-        //
-        
-        //$countryMap->addDestinies($destiny);
-        //$countryMap->addOrigins($origin);
         
         $service = new DatacenterService($repository, $cache);//$countryMap);
         $statistic = new Statistic();
@@ -51,7 +43,12 @@ if(RequestsPatterns::postParamsSetted('subgroup', 'font', 'coffetype', 'variety'
         $reader = new Spreadsheet_Excel_Reader($_FILES['Planilha']['tmp_name']);        
         try{
             $inputFile = new ExcelInputFile($reader);
-            $response = $controller->saveValues($inputFile, $subgroup, $font, $destiny, $coffeType, $variety,$typeCountry);
+            if(insertingValuesForInternationalTrade($subgroup)){
+                $typeCountry = 'origin';
+                $response = $controller->saveValues($inputFile, $subgroup, $font, $destiny, $coffeType, $variety,$typeCountry,true);
+            }else{
+                $response = $controller->saveValues($inputFile, $subgroup, $font, $destiny, $coffeType, $variety,$typeCountry);
+            }            
             print_r($response);
         }catch(WrongFormatException $exception){
             print_r($jsonResponse->response(false, $exception->getMessage())->withoutHeader()->serialize());
@@ -63,5 +60,11 @@ if(RequestsPatterns::postParamsSetted('subgroup', 'font', 'coffetype', 'variety'
     }
 }else{
     print_r($jsonResponse->response(false, "Parâmetros não configurados corretamente.")->withoutHeader()->serialize());    
+}
+?>
+<?
+function insertingValuesForInternationalTrade($subgroup){
+   $subgroups = array(1,2,3,4,5,6);
+   return (in_array($subgroup, $subgroups));
 }
 ?>

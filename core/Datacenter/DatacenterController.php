@@ -85,7 +85,7 @@ class DatacenterController {
     }           
     
     //POST ://datacenter/save
-    public function saveValues(ExcelInputFile $excelInputFile, $subgroup, $font, $destiny, $coffeType, $variety, $typeCountry = null){
+    public function saveValues(ExcelInputFile $excelInputFile, $subgroup, $font, $destiny, $coffeType, $variety, $typeCountry = null, $internationalTrade = false){
         if(SessionAdmin::isLogged()){
             CacheCountry::setCacheBehavior(SessionAdmin::getCacheBehavior());
             try{
@@ -94,11 +94,15 @@ class DatacenterController {
                     $wrongSelected = $this->countriesSelectedAreCorrect($typeCountry, $countries);
                     if(sizeof($wrongSelected) > 0){
                         $nameOfWrongCountries = $this->countriesAsString($wrongSelected);
-                        $message = "Os seguintes países presentes na planilha (".utf8_encode($nameOfWrongCountries).") não correspondem ao grupo que você selecionou";
+                        $message = "- Os seguintes países presentes na planilha (".utf8_encode($nameOfWrongCountries).") não correspondem ao grupo que você selecionou.";
+                        $message .= "\n\n";
+                        $message .= "- Verifique se falta acentuação no nome do país da planinha selecionada.";
+                        $message .= "\n\n";
+                        $message .= "- Também certifique-se de que os nomes dos países estejam em português e sem abreviações";
                         throw new WrongFormatException($message);
                     }
                 }
-                if($this->datacenterService->insertValues($excelInputFile, $subgroup, $destiny, $coffeType, $variety, $font,$typeCountry)){
+                if($this->datacenterService->insertValues($excelInputFile, $subgroup, $destiny, $coffeType, $variety, $font,$typeCountry,$internationalTrade)){
                     return $this->jsonResponse->response(true, "Dados inseridos com sucesso!")->serialize();
                 }else{
                     $message = "Dados não inseridos. Verifique a possibilidade de já existirem dados referentes a esta planilha";
