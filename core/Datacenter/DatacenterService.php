@@ -27,8 +27,8 @@ class DatacenterService {
         $this->statistic = $statistic;
     }
     
-    public function insertValues(ExcelInputFile $excelInputFile, $subgroup, $destiny, $type, $variety, $font, $typeCountry = null, $internationalTrade = false) {
-        $countries = $excelInputFile->getValuesOfColumn(1);        
+    public function insertValues(ExcelInputFile $excelInputFile, $subgroup, $origin, $destiny, $type, $variety, $font, $typeCountry = null, $internationalTrade = false) {
+        $countries = $excelInputFile->getValuesOfColumn(1);   
         $dataToSave = new ArrayObject();
         foreach($countries as $country){
             if($typeCountry == 'origin'){

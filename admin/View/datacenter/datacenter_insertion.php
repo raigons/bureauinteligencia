@@ -21,6 +21,10 @@
                 <select id="variety" type="select-one">
                     <option value=""></option>
                 </select>
+                <label>Origem</label>
+                <select id="origin">
+                    <option value=""></option>
+                </select>
                 <label>Destino</label>
                 <select id="destiny" type="select-one">
                     <option value=""></option>

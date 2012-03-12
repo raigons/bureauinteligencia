@@ -85,7 +85,7 @@ class DatacenterController {
     }           
     
     //POST ://datacenter/save
-    public function saveValues(ExcelInputFile $excelInputFile, $subgroup, $font, $destiny, $coffeType, $variety, $typeCountry = null, $internationalTrade = false){
+    public function saveValues(ExcelInputFile $excelInputFile, $subgroup, $font, $origin, $destiny, $coffeType, $variety, $typeCountry = null, $internationalTrade = false){
         if(SessionAdmin::isLogged()){
             CacheCountry::setCacheBehavior(SessionAdmin::getCacheBehavior());
             try{
@@ -96,13 +96,15 @@ class DatacenterController {
                         $nameOfWrongCountries = $this->countriesAsString($wrongSelected);
                         $message = "- Os seguintes países presentes na planilha (".utf8_encode($nameOfWrongCountries).") não correspondem ao grupo que você selecionou.";
                         $message .= "\n\n";
-                        $message .= "- Verifique se falta acentuação no nome do país da planinha selecionada.";
+                        $message .= "\t- Confirme se os países existem na lista (origem ou destino) que você selecionou;";
                         $message .= "\n\n";
-                        $message .= "- Também certifique-se de que os nomes dos países estejam em português e sem abreviações";
+                        $message .= "\t- Verifique se falta acentuação no nome do país da planinha selecionada.";
+                        $message .= "\n\n";
+                        $message .= "\t- Também certifique-se de que os nomes dos países estejam em português e sem abreviações";                                                
                         throw new WrongFormatException($message);
                     }
                 }
-                if($this->datacenterService->insertValues($excelInputFile, $subgroup, $destiny, $coffeType, $variety, $font,$typeCountry,$internationalTrade)){
+                if($this->datacenterService->insertValues($excelInputFile, $subgroup, $origin, $destiny, $coffeType, $variety, $font,$typeCountry,$internationalTrade)){
                     return $this->jsonResponse->response(true, "Dados inseridos com sucesso!")->serialize();
                 }else{
                     $message = "Dados não inseridos. Verifique a possibilidade de já existirem dados referentes a esta planilha";

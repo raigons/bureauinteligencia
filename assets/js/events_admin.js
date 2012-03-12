@@ -172,6 +172,7 @@ function listValuesToDatacenterSelects(){
     listVarietiesToDatacenter(request, url, data,$("select#variety"));    
     listCoffeTypeToDatacenter(request, url, data,$("select#coffetype"));
     listDestiniesToDatacenter(request, url, data, $("select#destiny"));
+    listOriginToDatacenter(request,url, data, $("select#origin"));
 }
 function listGroupsToDatacenter(request, url, data, $select){
     if($select.html() != null){
@@ -184,22 +185,25 @@ function listGroupsToDatacenter(request, url, data, $select){
 function writeARadioBoxForCountriesIfGroupCannotHaveOriginAndDestinyAtTheSameTime(group){
     var comercioInternacional = 1;
     var $destiny = $("select#destiny");
+    var $origin = $("select#origin");
     if(group != comercioInternacional){
-        $destiny
-            .hide()
-            .attr("disabled", "disabled")
-            .prev("label").hide();
-            $destiny.val(0);
-            $("div.country_radios").show();
+        hideCountryDependingOnGroupSelected($destiny);
+        hideCountryDependingOnGroupSelected($origin);
+        $("div.country_radios").show();
     }else{
-        if(!$destiny.is(":visible")){
-            $destiny
-                .removeAttr("disabled")
-                .show()
-                .prev("label").show();
-            $destiny.val('');
-            $("div.country_radios").hide();
-        }
+        showCountrySelect($destiny);
+        showCountrySelect($origin);
+        $("div.country_radios").hide();        
+    }
+}
+
+var hideCountryDependingOnGroupSelected = function($countrySelect){
+   $countrySelect.hide().attr("disabled","disabled").prev("label").hide().val(0);
+}
+
+var showCountrySelect = function($countrySelect){
+    if(!$countrySelect.is(":visible")){
+        $countrySelect.removeAttr("disabled").show().prev("label").show().val('');        
     }
 }
 
@@ -216,6 +220,7 @@ function groupChange(){
        }       
     });
 }
+
 function listVarietiesToDatacenter(request, url, data, $select){
     if($select.html() != null){
         data.type = "Variety";
@@ -247,10 +252,42 @@ function eventChangeToCoffeType(){
         }
     });
 }
+
 function listDestiniesToDatacenter(request,url,data,$select){
     if($select.html() != null){
         data.type = 'destiny';
         request.list_to_select(url, $select, data);
+        $select.ajaxStop(function(){
+           eventDisableCountrySelect($(this)); 
+        });
+    }
+}
+
+var eventDisableCountrySelect = function($select){
+    $select.change(function(){
+        if(this.value != ''){
+            if(this.id == 'origin'){
+                $("#destiny").attr("disabled","disabled");
+            }else if(this.id == 'destiny'){
+                $("#origin").attr("disabled","disabled");
+            }
+        }else{
+            if(this.id == 'origin'){
+                $("#destiny").removeAttr("disabled");
+            }else if(this.id == 'destiny'){
+                $("#origin").removeAttr("disabled");
+            }
+        }
+    });
+}
+
+function listOriginToDatacenter(request,url,data,$select){
+    if($select.html() != null){
+        data.type = 'origin';
+        request.list_to_select(url, $select, data);
+        $select.ajaxStop(function(){
+            eventDisableCountrySelect($(this));
+        });
     }
 }
 function eventChangeToArea(){
@@ -266,19 +303,30 @@ function eventChangeToArea(){
     });
 }
 
-function dataDatacenter(){
+function dataDatacenter(){  
+    var comercioInternacional = 1;
     var data = {
         "subgroup":$("#subgroups").val(),
         "font":$("#font").val(),
         "coffetype":$("#coffetype").val(),
-        "variety":$("#variety").val()        
+        "variety":$("#variety").val()   
     };    
-    if($("#destiny").is(":visible")){
+    data.typeCountry = $("input[name=country_group]:checked").val();    
+    
+    if($("#destiny").is(":visible") && $("#destiny").attr("disabled") == undefined){
         data.destiny = $("#destiny").val();
     }else{
         data.destiny = -1;
-        data.typeCountry = $("input[name=country_group]:checked").val();
+        if($("#groups").val() == comercioInternacional) data.typeCountry = 'destiny';
     }
+    
+    if($("#origin").is(":visible") && $("#origin").attr("disabled") == undefined){
+        data.origin = $("#origin").val();
+    }else{
+        data.origin = -1;
+        if($("#groups").val() == comercioInternacional) data.typeCountry = 'origin';
+    }
+        
     return data;
 }
 
@@ -344,7 +392,7 @@ function valid($form){
     var invalid_inputs = new Array();
     var formAction = $form.attr("action");    
     $(id + " input, select").each(function(i, obj){
-        if($(obj).is(":visible") && obj.value == ''){
+        if($(obj).is(":visible") && $(obj).attr("disabled") == undefined && obj.value == ''){
             isvalid = isvalid && false;
             invalid_inputs.push("#"+obj.id);
         }else{

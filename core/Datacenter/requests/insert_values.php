@@ -20,13 +20,18 @@ if(RequestsPatterns::postParamsSetted('subgroup', 'font', 'coffetype', 'variety'
         
         if($variety == "none") $variety = 0;
         $destiny = $_POST['destiny'];
+        $origin = $_POST['origin'];
         
         $typeCountry = null;        
         
         if(isset($_POST['typeCountry'])){
             $typeCountry = $_POST['typeCountry'];
+        }
+        
+        if(!insertingValuesForInternationalTrade($subgroup)){
             $destiny = 0;
-        }        
+            $origin = 0;
+        }
 
         $repository = new DatacenterDao(Connection::connect());
         
@@ -35,19 +40,17 @@ if(RequestsPatterns::postParamsSetted('subgroup', 'font', 'coffetype', 'variety'
         
         $service = new DatacenterService($repository, $cache);//$countryMap);
         $statistic = new Statistic();
-        //$jsonResponse = new JsonResponse();
         $grouper = new DataGrouper();
-        //$factory = new BuilderFactory();        
         $controller = new DatacenterController($service, $statistic, $jsonResponse, $grouper, $factory); 
                 
         $reader = new Spreadsheet_Excel_Reader($_FILES['Planilha']['tmp_name']);        
         try{
             $inputFile = new ExcelInputFile($reader);
             if(insertingValuesForInternationalTrade($subgroup)){
-                $typeCountry = 'origin';
-                $response = $controller->saveValues($inputFile, $subgroup, $font, $destiny, $coffeType, $variety,$typeCountry,true);
+                //$typeCountry = 'origin';
+                $response = $controller->saveValues($inputFile, $subgroup, $font, $origin, $destiny, $coffeType, $variety,$typeCountry,true);
             }else{
-                $response = $controller->saveValues($inputFile, $subgroup, $font, $destiny, $coffeType, $variety,$typeCountry);
+                $response = $controller->saveValues($inputFile, $subgroup, $font, $origin, $destiny, $coffeType, $variety,$typeCountry);
             }            
             print_r($response);
         }catch(WrongFormatException $exception){
