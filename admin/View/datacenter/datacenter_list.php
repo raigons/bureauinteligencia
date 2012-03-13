@@ -37,11 +37,13 @@
                 <th>País</th>
                 <th>Fonte</th>
                 <th>Valor</th>
+                <th>Edição</th>
             </tr>
         </thead>
         <tfoot>
             <tr>
                 <td><strong>Mostrando <?echo $data_values->count()?> valores de <?echo $total?></strong></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -63,6 +65,7 @@
                 <td><?echo $data->getDestinyName();?></td>
                 <td><?echo $data->getFontName();?></td>
                 <td><?echo $data->getValue()?></td>
+                <td><?DatacenterHelper::linkEdit($data, "Editar");?></td>
             </tr>
             <?endforeach;?>
         </tbody>

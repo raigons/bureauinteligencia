@@ -119,6 +119,7 @@ class LinkController {
         self::$map_requests->put("datacenter/country", "../core/Datacenter/requests/country_insert.php");
         self::$map_requests->put("datacenter/country/delete", "../core/Datacenter/requests/country_delete.php");
         self::$map_requests->put("datacenter/country/update/:id",  "../core/Datacenter/requests/country_edit.php");
+        self::$map_requests->put("datacenter/data/update/:id", "../core/Datacenter/requests/edit_value.php");
         ///datacenter/country/update/
         //self::$map_requests->put("datacenterAdmin/param", "../core/generics/datacenter/getParam.php");
     }
@@ -156,6 +157,7 @@ class LinkController {
         self::$map_admin_pages->put("datacenter/paises/destino/:page", "View/datacenter/datacenter_country_list.php");
         self::$map_admin_pages->put("datacenter/paises/origem/:page",  "View/datacenter/datacenter_country_list.php");
         self::$map_admin_pages->put("datacenter/country/edit/:id",  "View/datacenter/datacenter_country_edition.php");
+        self::$map_admin_pages->put("datacenter/dado/edit/:id",  "View/datacenter/datacenter_edition.php");
         
         self::$map_admin_pages->put("logoutAdmin", "logout_admin.php");
     }
@@ -215,6 +217,15 @@ class LinkController {
         return $LINK;
     }
     
+    private static function editData($LINK){
+        $link = explode("datacenter/dado/edit/", $LINK);
+        if(sizeof($link) == 2 && is_numeric($link[1])){
+            $_REQUEST['id_data'] = $link[1];
+            return "datacenter/dado/edit/:id";
+        }
+        return $LINK;
+    }
+    
     public static function routeAdminPage(){
         self::initAdminPages();
         $link = self::link();
@@ -223,6 +234,7 @@ class LinkController {
             $link = self::datacenterListParser();
             $link = self::datacenterListCountry($link);
             $link = self::editACountry($link);
+            $link = self::editData($link);
             if(self::$map_admin_pages->containsKey($link)){
                 if(file_exists(self::$map_admin_pages->get($link))){
                     return self::$map_admin_pages->get($link);
@@ -310,6 +322,15 @@ class LinkController {
         return $LINK;
     }
     
+    private static function restDataEdition($LINK){
+        $link = explode("datacenter/data/update/", $LINK);
+        if(sizeof($link) == 2 && is_numeric($link[1])){
+            $_REQUEST['id_data'] = $link[1];
+            return "datacenter/data/update/:id";
+        }
+        return $LINK;
+    }
+    
     public static function restAdmin(){
         self::initRequests();
         if(strpos(self::link(), "?") !== false)
@@ -317,6 +338,7 @@ class LinkController {
         else
             $link = self::link();
         $link = self::restCountryEdition($link);
+        $link = self::restDataEdition($link);
         if(SessionAdmin::isLogged() || $link == 'login' || isset ($_REQUEST['no-must-online'])){ 
             if(self::$map_requests->containsKey($link)){                
                 if(file_exists(self::$map_requests->get($link))){     

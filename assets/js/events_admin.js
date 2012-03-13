@@ -1,10 +1,41 @@
+function avoidLettersAndSymbolsOnDataEditForm(){    
+    $("#form-data-value").children().find("input").focus(function(){
+        $(this).keydown(function(key){            
+            if(key.which == 190){
+                if(canAddAnotherPeriodChar($(this).val()))                    
+                    return true;
+                return false;
+            }
+            if(thisKeyIsAllowed(key.which, $(this).val()))
+                return true;
+            return false;
+        });
+    }).blur(function(){
+        $(this).unbind('keydown');
+    });
+}
+
+var canAddAnotherPeriodChar = function(inputVal){
+    for(var i = 0; i < inputVal.length; i++)
+        if(inputVal.charAt(i) == '.') return false;
+    return true;
+}
+
+var thisKeyIsAllowed = function(keycode){    
+    return !(keycode >= 65 && keycode <= 90) //letters
+                && (keycode != 188) //comma
+                && keycode != 0
+                && keycode != 32 //space
+                && keycode != 13; //enter
+}
+
 function eventSortableList(){
     $("#table-rss-news tbody").sortable({        
         start: function(event, ui){
             var $item = ui.item;
             $item.addClass("highlight");
-        },
-        stop: function(event, ui){            
+            },
+            stop: function(event, ui){            
             var $item = ui.item;
             $item.removeClass("highlight");
             updateIndexs($item);           
@@ -46,7 +77,8 @@ function eventDelete(){
     });
 }
 
-function eventInsert(){    
+function eventInsert(){
+    avoidLettersAndSymbolsOnDataEditForm();
     $(".button-edit, .button-insert, .button-insert-analysis").click(function(){                        
         var $form = $(this).parents("form");
         var isValid = valid($form);        
@@ -119,6 +151,9 @@ function submitIfIsValid($form, isValid){
         }
         if($form.attr("id") == 'form-video'){
             data.duration = $("#duration").val();
+        }
+        if($form.attr("id") == 'form-data-value'){
+            data.value = $("#data-value").val();            
         }
         if($form.hasClass("analysis")){
             if($("#text").val() == ''){

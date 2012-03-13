@@ -64,7 +64,9 @@ form fieldset .field{
     text-align: right;
     margin-bottom: 15px;
 }
-
+.right{
+    text-align: left !important;
+}
 button.button-insert{
     cursor: pointer;
 }

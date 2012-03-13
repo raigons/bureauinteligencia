@@ -128,6 +128,7 @@ class DatacenterDao implements DatacenterRepository{
             
             $data = new Data($value['ano'], $subgroup, $font, $type, $variety, $origin, $destiny);
             $data->setValue($value['value']);
+            if(isset($value['id'])) $data->setId ($value['id']);
             $list->append($data);
         }
         return $list->getIterator();
@@ -296,6 +297,21 @@ class DatacenterDao implements DatacenterRepository{
         $query->execute();
         return ($this->buildSimpleObjects($query->fetchAll(PDO::FETCH_ASSOC)));
     }
+    
+    public function getSingleDataValue($id) {
+        $sql = "SELECT ".$this->allParams(); 
+        $sql .= "FROM data value ";
+        $sql .= $this->leftOuterJoin();
+        $sql .= " WHERE value.id = :id LIMIT 1";
+        $query = $this->session->prepare($sql);
+        $query->execute(array(":id"=>$id));
+        if($query->rowCount() == 1){
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+            $value = $this->buildSimpleObjects($data);
+            return $value->offsetGet(0);            
+        }
+        return null;
+    }
 
     public function totalValues() {
         $statement = "SELECT COUNT(*) AS total FROM data";
@@ -304,7 +320,16 @@ class DatacenterDao implements DatacenterRepository{
         $query->execute();
         $result = $query->fetch(PDO::FETCH_ASSOC);
         return $result['total'];                
-    }        
+    }
+
+    public function editValue(Data $data) {
+        $sql = "UPDATE data SET value = :value WHERE id = :id LIMIT 1";
+        $query = $this->session->prepare($sql);
+        $query->bindParam(":value", $data->getValue());
+        $query->bindParam(":id", $data->getId());
+        $query->execute();
+        return $query->rowCount() > 0;
+    }
 }
 
 ?>

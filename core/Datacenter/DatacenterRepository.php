@@ -7,6 +7,13 @@ interface DatacenterRepository {
 
     const ALL = "all";
 
+    public function editValue(Data $data) ;
+    
+    /**
+     * @return Data 
+     */
+    public function getSingleDataValue($id);
+
     public function totalValues();
     
     /**

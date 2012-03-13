@@ -6,7 +6,7 @@
  */
 
 class DatacenterHelper {
-            
+                   
     public static function pagination($page, $maxValuesPerPage, $totalValues){
         $link_type = "admin/datacenter/list/";
         echo GenericHandler::prevPage($page, $link_type);
@@ -19,6 +19,15 @@ class DatacenterHelper {
         echo "Página <strong>$page</strong> de <strong>$total_pages</strong>";
     }
           
+    public static function linkEdit(Data $data, $textLink){
+        $baseUrl = LinkController::getBaseURL();
+        $idData = $data->getId();
+        $link = "<a href='$baseUrl/admin/datacenter/dado/edit/$idData'>";
+        $link .= $textLink;
+        $link .= "</a>";
+        echo $link;
+    }
+    
     /**
      * @return Data 
      */

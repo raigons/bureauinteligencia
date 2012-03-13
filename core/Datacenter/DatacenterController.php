@@ -168,6 +168,14 @@ class DatacenterController {
         return $this->datacenterService->gelTotalValues();
     }
     
+    public function getSingleDataValue($id){        
+        return $this->datacenterService->getSingleDataValue($id);
+    }
+    
+    public function editValue(Data $data){
+        return $this->datacenterService->editValue($data);
+    }
+    
     private function calculateLimits($page){
        $underLimit =  (self::$LIMIT_PER_PAGE*$page) - self::$LIMIT_PER_PAGE;
        return $underLimit;

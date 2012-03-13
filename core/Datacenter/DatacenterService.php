@@ -146,5 +146,13 @@ class DatacenterService {
     public function gelTotalValues(){
         return $this->repository->totalValues();
     }
+
+    public function getSingleDataValue($id) {
+        return $this->repository->getSingleDataValue($id);
+    }
+
+    public function editValue(Data $data) {
+        return $this->repository->editValue($data);
+    }
 }
 ?>
