@@ -75,7 +75,7 @@ class Statistic {
     }
     
     public function populationVariance(ArrayIterator $values){
-        $sumVariance = $this->variance($values); 
+        $sumVariance = $this->variance($values);        
         return round($sumVariance/$values->count(), 2);
     }
     
@@ -91,7 +91,10 @@ class Statistic {
     
     public function sampleVariance(ArrayIterator $values){
         $sumVariance = $this->variance($values);
-        return round($sumVariance/($values->count()-1),2);
+        if($values->count() > 1)
+            return round($sumVariance/($values->count()-1),2);
+        else
+            return round($sumVariance/($values->count()),2);
     }
 }
 ?>
