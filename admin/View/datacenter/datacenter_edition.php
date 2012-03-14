@@ -16,7 +16,7 @@ $controller = new DatacenterController($service, $statistic, $jsonResponse, $gro
 ?>
 <?php
     $data_id = $_REQUEST['id_data'];
-    $data = $controller->getSingleDataValue($data_id);    
+    $data = $controller->getSingleDataValue($data_id);
 ?>
 <?if($data != null):?>
 <div class="form-insert">
@@ -25,8 +25,8 @@ $controller = new DatacenterController($service, $statistic, $jsonResponse, $gro
         <fieldset>
             <div class="fields-readonly">
                 <div class="field right"><label>Ano:</label><?echo $data->getYear();?></div>
-                <div class="field right"><label>Tipo:</label><?echo $data->getTypeName();?></div>
-                <div class="field right"><label>Variedade:</label><?echo $data->getVarietyName();?></div>
+                <div class="field right"><label>Tipo:</label><?echo utf8_encode($data->getTypeName());?></div>
+                <div class="field right"><label>Variedade:</label><?echo utf8_encode($data->getVarietyName());?></div>
                 <div class="field right"><label>Origem:</label><?echo $data->getOriginName();?></div>
                 <div class="field right"><label>Destino:</label><?echo $data->getDestinyName();?></div>
                 <div class="field right"><label>Fonte:</label><?echo $data->getFontName();?></div>
