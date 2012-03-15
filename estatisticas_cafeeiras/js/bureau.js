@@ -226,6 +226,8 @@ $(document).ready(function(){
                                                        
             $('#fonte .options').append($('#fonte .model ul#fonte_grupo_'+idDoGrupo).clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
 			prepend('<li class="sg">'+$(this).html()+'</li>').show());
+
+
 		} else {                                                			
             $('#origem #dosubgrupo-'+$(this).attr('id')).remove();
             $('#destino #dosubgrupo-'+$(this).attr('id')).remove();
@@ -359,9 +361,38 @@ $(document).ready(function(){
             });
         }
     });
+
+	function validateOptionsAccordingToGroups(){
+		var groupsSelected = $("#grupo .options ul li.sel");		
+		if(groupsSelected.length == 2){
+			var subgroupsSelected = $("#subgrupo .options ul li.sel");
+			if(subgroupsSelected.length == 2){
+				var parentGroupsCount = 0;
+				var parentGroup = null;
+				$(subgroupsSelected).each(function(i,li){
+					if(parentGroup != $(li).siblings(".sg").html()){
+						parentGroup = $(li).siblings(".sg").html();
+						parentGroupsCount++;
+					}
+				});
+				if(parentGroupsCount < 2){ 					
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 	
 	$('.confirmar').click(function(){
 		
+		if(!validateOptionsAccordingToGroups()){
+			var message = "É necessário selecionar um subgrupo pertecente a cada um dos grupos selecionados.";
+			message += "<br />";
+			message += "Se deseja selecionar dois subgrupos do mesmo grupo, desmarque um dos grupos selecionados no menu."
+			advise(message);
+			return false;
+		}
+
 		if ($('#subgrupo .options li.sel').length <= 1) {
 			
 			data = {
