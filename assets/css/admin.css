@@ -31,7 +31,8 @@ h1.titleadmin {
 }
 
 #content-middle{
-    width: 960px;
+    /*width: 960px;*/
+    width: 100%;
     height: auto;
     border: 1px solid #CCC;
     border: 0;

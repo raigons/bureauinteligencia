@@ -8,7 +8,7 @@
                     <option value=""></option>
                 </select>
             </div>
-            <div class="field">
+            <div class="field" style="text-align: center">
                 <label>Subgrupo</label>
                 <select id="subgroups" type="select-one" disabled="disabled">
                     <option value=""></option>
