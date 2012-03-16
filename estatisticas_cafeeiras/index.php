@@ -21,7 +21,8 @@ if(!Session::isLogged()){
 	<link rel="stylesheet" type="text/css" href="styles/style.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="styles/spreadsheet.css" media="screen" />
 	<link type="text/css" href="styles/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>-->
+	<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
 	<script src="js/jquery-ui.min.js" type="text/javascript"></script>
 	<script src="js/slimScroll.min.js" type="text/javascript"></script>
 	<script src="js/bureau.js" type="text/javascript"></script>        
