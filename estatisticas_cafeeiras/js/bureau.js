@@ -238,8 +238,8 @@ $(document).ready(function(){
 				var $copy_subgroup = $first_sg.clone();
 				$first_sg.parent().remove();
 				$("#origem .options").prepend($copy_subgroup);
-				$("#origem #"+$copy_subgroup.attr("id")).slimScroll({height: 96.5});
-				$("#origem #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 96.5});
+				$("#origem #"+$copy_subgroup.attr("id")).slimScroll({height: 96.5, alwaysVisible: true});
+				$("#origem #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 96.5, alwaysVisible: true});
 			}
             
             $('#destino .options').append($('#destino .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
@@ -253,8 +253,8 @@ $(document).ready(function(){
 				var $copy_subgroup = $first_sg.clone();
 				$first_sg.parent().remove();
 				$("#destino .options").prepend($copy_subgroup);
-				$("#destino #"+$copy_subgroup.attr("id")).slimScroll({height: 96.5});            	
-            	$("#destino #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 96.5});
+				$("#destino #"+$copy_subgroup.attr("id")).slimScroll({height: 96.5, alwaysVisible: true});
+            	$("#destino #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 96.5, alwaysVisible: true});
             }
             
 
