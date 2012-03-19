@@ -53,7 +53,7 @@ $(document).ready(function(){
 			var paddingTop = Number($(li).css("padding-top").substring(0,$(li).css("padding-top").length-2));
 			var paddingBottom = Number($(li).css("padding-bottom").substring(0,$(li).css("padding-bottom").length-2));
 			var liTotalHeight = Number($(li).height()) + paddingTop + paddingBottom;
-			console.log("Li ["+$(li).html()+"] = "+liTotalHeight);
+			//console.log("Li ["+$(li).html()+"] = "+liTotalHeight);
 			totalHeight += liTotalHeight;
 		});
 		return totalHeight;
@@ -556,14 +556,13 @@ $(document).ready(function(){
 					}				
 				}
 			}
-
-                        
+		          
 			if($("#grupo .options ul li.sel").html() != 'Comércio Internacional'){
 		  		if (data.origem == undefined || data.origem.length == 0) data.origem = 0;
 		  		if (data.destino == undefined || data.destino.length == 0) data.destino = 0;
 			}
 			
-			console.log(data);
+			//console.log(data);
 			
 		} else {
 			
@@ -673,7 +672,7 @@ $(document).ready(function(){
 			
 			data = {"0": datas[0], "1": datas[1], "ano": [$('#de').val(), $('#ate').val()]};
 			
-			console.log(data);
+			//console.log(data);
 			
 		}
 		
