@@ -46,16 +46,29 @@ $(document).ready(function(){
         $(this).css("cursor","default");
     });
 	
+	var liCountryHeight = function($countryOptions){
+		var list_li = $countryOptions.children("[id*='dosubgrupo']").children("li");
+		var totalHeight = 0;
+		$(list_li).each(function(i,li){			
+			var paddingTop = Number($(li).css("padding-top").substring(0,$(li).css("padding-top").length-2));
+			var paddingBottom = Number($(li).css("padding-bottom").substring(0,$(li).css("padding-bottom").length-2));
+			var liTotalHeight = Number($(li).height()) + paddingTop + paddingBottom;
+			console.log("Li ["+$(li).html()+"] = "+liTotalHeight);
+			totalHeight += liTotalHeight;
+		});
+		return totalHeight;
+	}
+
 	$.getJSON('../datacenter/param', {type: "Groups"},//, id: null},
 		function(data){
 			$(data).each(function(i, param){
 				$('#grupo .options ul').append('<li id="'+param.id+'">'+param.name+'</li>');
 			});
-			
-			$('#variedade .options, #tipo .options, #origem .options, #destino .options, #fonte .options').slimScroll({
-				height: $('#grupo .options').height() + $('#periodo').height() + 20
+
+			$('#variedade .options, #tipo .options, #fonte .options').slimScroll({
+				height: $('#grupo .options').height() + $('#periodo').height() + 20	
 			});
-			
+
 			$('#subgrupo .options').slimScroll({
 				height: $('#grupo .options').height(),
 				alwaysVisible: true
@@ -115,15 +128,17 @@ $(document).ready(function(){
 			$(data).each(function(i, param){
 				$('#origem .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();
 			});
-			$('#origem .model ul').append('<li id="all">Todos</li>');
+			$('#origem .model ul').append('<li id="all">Todos (soma)</li>');
+			$('#origem .model ul').append('<li id="-1">Todos</li>');			
 		});
-		
+
 	$.getJSON('../datacenter/param', {type: "destiny"},//, id: null},
 		function(data){
 			$(data).each(function(i, param){
 				$('#destino .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();
 			});
-			$('#destino .model ul').append('<li id="all">Todos</li>');
+			$('#destino .model ul').append('<li id="all">Todos (soma)</li>');
+			$('#destino .model ul').append('<li id="-1">Todos</li>');
 		});
 	
 	/*var dates = $( "#from, #to" ).datepicker({
@@ -214,10 +229,35 @@ $(document).ready(function(){
                                                 
             $('#origem .options').append($('#origem .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
 			prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());
-                    
+
+			if($("#origem").children().find("[id*='dosubgrupo']").length == 1){
+				$("#origem #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 193});
+			}else{
+				var subgrupos = $("#origem").children().find("[id*='dosubgrupo']");
+				var $first_sg = $(subgrupos[0]);
+				var $copy_subgroup = $first_sg.clone();
+				$first_sg.parent().remove();
+				$("#origem .options").prepend($copy_subgroup);
+				$("#origem #"+$copy_subgroup.attr("id")).slimScroll({height: 96.5});
+				$("#origem #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 96.5});
+			}
+            
             $('#destino .options').append($('#destino .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
 			prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());
-                    
+            
+            if($("#destino").children().find("[id*='dosubgrupo']").length == 1){
+            	$("#destino #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 193});
+            }else{
+				var subgrupos = $("#destino").children().find("[id*='dosubgrupo']");
+				var $first_sg = $(subgrupos[0]);
+				var $copy_subgroup = $first_sg.clone();
+				$first_sg.parent().remove();
+				$("#destino .options").prepend($copy_subgroup);
+				$("#destino #"+$copy_subgroup.attr("id")).slimScroll({height: 96.5});            	
+            	$("#destino #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 96.5});
+            }
+            
+
 			$('#variedade .options').append($('#variedade .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
 			prepend('<li class="sg">'+$(this).html()+'</li>'));//.show());
 			
@@ -229,8 +269,28 @@ $(document).ready(function(){
 
 
 		} else {                                                			
+			$('#origem #dosubgrupo-'+$(this).attr('id')).parent('.slimScrollDiv').remove();			
             $('#origem #dosubgrupo-'+$(this).attr('id')).remove();
+            if($("#origem").children().find("[id*='dosubgrupo']").length == 1){
+				var subgrupos = $("#origem").children().find("[id*='dosubgrupo']");
+				var $first_sg = $(subgrupos[0]);
+				var $copy_subgroup = $first_sg.clone();
+				$first_sg.parent().remove();
+				$("#origem .options").prepend($copy_subgroup);
+				$("#origem #"+$copy_subgroup.attr("id")).slimScroll({height: 193});            		
+            }
+
+			$('#destino #dosubgrupo-'+$(this).attr('id')).parent('.slimScrollDiv').remove();
             $('#destino #dosubgrupo-'+$(this).attr('id')).remove();
+            if($("#origem").children().find("[id*='dosubgrupo']").length == 1){
+				var subgrupos = $("#destino").children().find("[id*='dosubgrupo']");
+				var $first_sg = $(subgrupos[0]);
+				var $copy_subgroup = $first_sg.clone();
+				$first_sg.parent().remove();
+				$("#destino .options").prepend($copy_subgroup);
+				$("#destino #"+$copy_subgroup.attr("id")).slimScroll({height: 193});            		
+            }
+
             $('#variedade #dosubgrupo-'+$(this).attr('id')).remove();
             $('#tipo #dosubgrupo-'+$(this).attr('id')).remove();
             $('#fonte #dosubgrupo-'+$(this).attr('id')).remove();
