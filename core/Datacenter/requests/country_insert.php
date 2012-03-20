@@ -20,9 +20,11 @@
             $message_error = "Falha na inserção do país"; 
             try{
                 if($typeCountry == 'origin'){
+                    if(isset($_POST['reexport']) && $_POST['reexport'] == true){
+                        $country->setReexport();
+                    }
                     if($controller->createNewOriginCountry($country)){
-                        $countryToCache = $controller->getCountryByName($country,$typeCountry);
-                        
+                        $countryToCache = $controller->getCountryByName($country,$typeCountry);                        
                         cacheCountry($countryToCache, $typeCountry);
                         print_r($json->response (true, $message)->serialize ());
                     }else

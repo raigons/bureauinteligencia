@@ -87,7 +87,10 @@ class GenericDao {
     public function createCountry(Country $country, $typeCountry){
         if($this->countryExists($country, $typeCountry))
                 throw new Exception("O país ".$country->name ()." já existe!");
-        $sql = "INSERT INTO country (name, type_country) VALUES (:name, :type)";
+        if($country->isReexportCountry())
+            $sql = "INSERT INTO country (name, type_country, reexport) VALUES (:name, :type, '1')";
+        else
+            $sql = "INSERT INTO country (name, type_country) VALUES (:name, :type)";
         $query = $this->session->prepare($sql);
         $query->bindParam(":name", utf8_decode($country->name()));
         $query->bindParam(":type", $typeCountry);
@@ -99,8 +102,24 @@ class GenericDao {
         $sql = "UPDATE country SET name = :name WHERE id = :id LIMIT 1";
         $query = $this->session->prepare($sql);
         $query->bindParam(":name", utf8_decode($country->name()));
+        $query->bindParam(":id", $country->id());        
+        $query->execute();
+        return $query->rowCount() > 0;
+    }
+    
+    public function thisCountryCanBeDeleted(Country $country) {
+        $sql = "SELECT COUNT(*) AS qtd FROM data WHERE origin_id = :id OR destiny_id = :id";
+        $query = $this->session->prepare($sql);
         $query->bindParam(":id", $country->id());
-        
+        $query->execute();
+        $response = $query->fetch(PDO::FETCH_ASSOC);
+        return $response['qtd'] == 0;
+    }
+    
+    public function deleteCountry(Country $country) {
+        $sql = "DELETE FROM country WHERE id = :id LIMIT 1";
+        $query = $this->session->prepare($sql);
+        $query->bindParam(":id", $country->id());
         $query->execute();
         return $query->rowCount() > 0;
     }
@@ -200,7 +219,12 @@ class GenericDao {
             case "subgroup": return new Subgroup($name, $id); break;
             case "variety": return new Variety($name, $id); break;
             case "coffetype": return new CoffeType($name, $id); break;
-            case "country": return new Country($name, $id); break;
+            case "country": 
+                $country = new Country($name, $id);
+                if(isset($object['reexport']) && $object['reexport'] == 1)
+                    $country->setReexport();
+                return $country;  
+            break;
             case "font": return new Font($name, $id); break;
         }
     }

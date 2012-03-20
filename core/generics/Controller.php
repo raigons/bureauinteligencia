@@ -100,6 +100,13 @@ class Controller {
         return $this->dao->editCountry($object);
     }
     
+    public function deleteCountry(Country $country){
+        if(!$this->dao->thisCountryCanBeDeleted($country)){
+            throw new Exception("Este país não pode ser excluído pois possui dados relacionados a ele.");
+        }
+         return $this->dao->deleteCountry($country);
+    }
+    
     public function listOrigins(){
       return $this->dao->getOriginCountries();
     }

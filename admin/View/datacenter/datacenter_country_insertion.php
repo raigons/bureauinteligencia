@@ -12,7 +12,11 @@
                     <option value=""></option>
                     <option value="origin">Origem</option>
                     <option value="destiny">Destino</option>
-                </select>
+                </select>                
+            </div>
+            <div class="field">
+                <label for="reexport">Reexportação:</label>
+                <input id="reexport" type="checkbox" name="reexport" value="true"/>
             </div>
             <button type="submit" class="button-insert">Inserir</button>
         </fieldset>

@@ -14,10 +14,10 @@ if(!Session::isLogged()){
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<title>Bureau do Café</title>
-	<link rel="stylesheet" type="text/css" href="http://www.icafebr.com.br/assets/css/reset.css" media="screen" />
-	<link rel="stylesheet" type="text/css" href="http://www.icafebr.com.br/assets/css/main.css" media="screen" />
-	<link rel="stylesheet" type="text/css" href="http://www.icafebr.com.br/assets/css/text.css" media="screen" />
-	<link rel="stylesheet" type="text/css" href="http://www.icafebr.com.br/assets/css/grid.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="http://localhost/BureauInteligencia/assets/css/reset.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="http://localhost/BureauInteligencia/assets/css/main.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="http://localhost/BureauInteligencia/assets/css/text.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="http://localhost/BureauInteligencia/assets/css/grid.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="styles/style.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="styles/spreadsheet.css" media="screen" />
 	<link type="text/css" href="styles/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	

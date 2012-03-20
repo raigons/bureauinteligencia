@@ -138,6 +138,8 @@ function submitIfIsValid($form, isValid){
                 'name':$('#name').val(),
                 'type': $('#type_country').val()
             }
+            if($("#reexport").is(":checked"))
+                data.reexport = true;
         }else{
             data = {
                 'link': $("#link").val(),

@@ -35,11 +35,13 @@
             <tr>
                 <th>Nome</th>
                 <th>Tipo</th>
+                <th>Reexportação</th>
                 <th style='width: 100px;'>Exclusão</th>
                 <th style='width: 100px;'>Edição</th>
             </tr>
         </thead>
         <tfoot>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -51,6 +53,11 @@
                 <!--<td><?//echo utf8_encode($country->name())?></td>-->
                 <td><?echo $country->name()?></td>
                 <td><?echo $table_type?></td>
+                <?if($country->isReexportCountry()):?>
+                <td><span style="font-weight: bold; color: green">Sim</span></td>
+                <?else:?>
+                <td><span style="font-weight: normal; color: red">Não</span></td>
+                <?endif?>
                 <td>
                     <a class="delete" href="<?echo LinkController::getBaseURL()?>/admin/datacenter/country/delete" id="<?echo $country->id();?>">
                         excluir

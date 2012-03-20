@@ -126,7 +126,10 @@ $(document).ready(function(){
 	$.getJSON('../datacenter/param', {type: "origin"},//, id: null},
 		function(data){
 			$(data).each(function(i, param){
-				$('#origem .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();
+				if(param.reexport == true)
+					$('#origem .model ul').append('<li id="'+param.id+'" class="reexport">'+param.name+'</li>').hide();
+				else
+					$('#origem .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();
 			});
 			$('#origem .model ul').append('<li id="all">Todos (soma)</li>');
 			$('#origem .model ul').append('<li id="-1">Todos</li>');			
@@ -241,7 +244,15 @@ $(document).ready(function(){
 				$("#origem #"+$copy_subgroup.attr("id")).slimScroll({height: 95, alwaysVisible: true});
 				$("#origem #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 94.5, alwaysVisible: true});
 			}
-            
+            if($(this).html() != 'Quantidade Exportada' 
+            	&& $(this).html() != 'Quantidade Importada'
+            	&& $(this).html() != 'Valor da Exportação'
+            	&& $(this).html() != 'Valor da Importação'){
+        		$("#origem #dosubgrupo-"+$(this).attr("id")).children('li.reexport').hide();
+            }else{
+            	$("#origem #dosubgrupo-"+$(this).attr("id")).children('li.reexport').show();
+            }
+
             $('#destino .options').append($('#destino .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
 			prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());
             
