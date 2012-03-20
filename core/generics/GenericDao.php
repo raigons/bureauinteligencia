@@ -185,7 +185,8 @@ class GenericDao {
     }
     
     private function buildObject($type, $object){        
-        $name = utf8_encode($object['name']);
+        if(isset($object['name']))
+            $name = utf8_encode($object['name']);
         $id = $object['id'];
         switch($type){
             case "area": return new Area($object['name'], $object['id']); break;
