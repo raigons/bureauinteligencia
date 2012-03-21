@@ -482,8 +482,7 @@ function filterListingData($selectSubgroup){
         $selectSubgroup.change(function(){
             var baseLink = null;
             if($(this).val() != ''){
-                var link = location.href.split("/datacenter/"); 
-                console.log(link);
+                var link = location.href.split("/datacenter/");                 
                 baseLink = link[0] + "/datacenter/subgrupo/" + $(this).val() + "/list/";
             }else{
                 var link = location.href.split("/datacenter/");                
