@@ -5,7 +5,7 @@
  */
 interface DatacenterRepository {
 
-    const ALL = "all";
+    const ALL = "all";    
 
     public function editValue(Data $data) ;
     
@@ -14,7 +14,7 @@ interface DatacenterRepository {
      */
     public function getSingleDataValue($id);
 
-    public function totalValues();
+    public function totalValues($subgroup = null);
     
     /**
      * @return ArrayIterator
@@ -39,10 +39,15 @@ interface DatacenterRepository {
      */
     public function getValuesFromAGroup($group);
 
-    /**,
+    /**
      * @return ArrayObject
      */
     public function getAllValues($underLimit, $maxValues) ;
+    
+    /**
+     * @return ArrayObject
+     */
+    public function getAllValuesBySubgroup($underLimit, $maxValues, $subgroup_id) ;
 }
 
 ?>

@@ -143,8 +143,12 @@ class DatacenterService {
         return $this->repository->getAllValues($underLimit, $upperLimit);
     }
     
-    public function gelTotalValues(){
-        return $this->repository->totalValues();
+    public function getAllValuesBySubgroup($underLimit, $upperLimit, $subgroup_id) {
+        return $this->repository->getAllValuesBySubgroup($underLimit, $upperLimit, $subgroup_id);
+    }
+    
+    public function gelTotalValues($subgroup = null){
+        return $this->repository->totalValues($subgroup);
     }
 
     public function getSingleDataValue($id) {

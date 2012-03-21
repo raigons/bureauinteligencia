@@ -10,6 +10,7 @@ $(document).ready(function(){
     //eventInserPublication();
     eventDelete();
     eventSortableList();
+    filterListingData($("#subgroup_filter"));
 });
 
 

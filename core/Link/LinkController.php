@@ -151,6 +151,7 @@ class LinkController {
         self::$map_admin_pages->put("datacenter", "View/datacenter/datacenter.php");
         self::$map_admin_pages->put("datacenter/", "View/datacenter/datacenter.php");
         self::$map_admin_pages->put("datacenter/inserir", "View/datacenter/datacenter_insertion.php");
+        self::$map_admin_pages->put("datacenter/:subgroup/list/:page", "View/datacenter/datacenter_list.php");
         self::$map_admin_pages->put("datacenter/list/:page", "View/datacenter/datacenter_list.php");
         self::$map_admin_pages->put("datacenter/list", "View/datacenter/datacenter_list.php");
         self::$map_admin_pages->put("datacenter/paises", "View/datacenter/datacenter_country_insertion.php");
@@ -174,6 +175,28 @@ class LinkController {
             }
         }
         return self::link();
+    }
+    
+    private static function datacenterListParserBySubgroup($LINK){
+        //datacenter/:subgroup/list/:page
+        $link = explode("datacenter/subgrupo/", $LINK);
+        if(sizeof($link) == 2){
+            $filteredLink = explode("/list/", $link[1]);
+            if(sizeof($filteredLink) == 2 && is_numeric($filteredLink[0]) && is_numeric($filteredLink[1])){               
+                $subgroup = $filteredLink[0]; $page = $filteredLink[1];
+                $_REQUEST['page'] = $page;
+                $_REQUEST['subgroup'] = $subgroup;
+                return "datacenter/:subgroup/list/:page";
+            }else{
+                if(sizeof($filteredLink) == 2 && is_numeric($filteredLink[0]) && $filteredLink[1] == ''){
+                    $subgroup = $filteredLink[0]; $page = 1;
+                    $_REQUEST['page'] = $page;
+                    $_REQUEST['subgroup'] = $subgroup;
+                    return "datacenter/:subgroup/list/:page";
+                }
+            }
+        }
+        return $LINK;
     }
     
     private static function datacenterListCountry($LINK){
@@ -230,8 +253,9 @@ class LinkController {
         self::initAdminPages();
         $link = self::link();
         /**/        
-        if(SessionAdmin::isLogged()){
+        if(SessionAdmin::isLogged()){            
             $link = self::datacenterListParser();
+            $link = self::datacenterListParserBySubgroup($link);
             $link = self::datacenterListCountry($link);
             $link = self::editACountry($link);
             $link = self::editData($link);

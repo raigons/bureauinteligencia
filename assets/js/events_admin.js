@@ -476,3 +476,20 @@ var insertFileToDatacenter = function(extension){
     var fileExtensionsAllowed = new Array("xls");
     return (fileExtensionsAllowed.indexOf(extension, 0) != -1);
 }
+
+function filterListingData($selectSubgroup){
+    if($selectSubgroup.html() != null){
+        $selectSubgroup.change(function(){
+            var baseLink = null;
+            if($(this).val() != ''){
+                var link = location.href.split("/datacenter/"); 
+                console.log(link);
+                baseLink = link[0] + "/datacenter/subgrupo/" + $(this).val() + "/list/";
+            }else{
+                var link = location.href.split("/datacenter/");                
+                baseLink = link[0] + "/datacenter/list/";
+            }
+            location.href = baseLink;
+        });
+    }
+}

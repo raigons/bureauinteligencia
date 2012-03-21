@@ -298,6 +298,21 @@ class DatacenterDao implements DatacenterRepository{
         return ($this->buildSimpleObjects($query->fetchAll(PDO::FETCH_ASSOC)));
     }
     
+    public function getAllValuesBySubgroup($underLimit, $maxValues, $subgroup_id) {
+        $limit = $underLimit . ", " . $maxValues;
+        $sql = "SELECT ".$this->allParams();
+        $sql .= " FROM data value ";
+        $sql .= $this->leftOuterJoin();
+        $sql .= " WHERE ";
+        $sql .= "value.subgroup_id = :subgroup ";
+        $sql .= " ORDER BY value.id DESC, origin, destiny, variety, type, font, subgroup, ano ASC";
+        $sql .= " LIMIT ".$limit;
+        $query = $this->session->prepare($sql);
+        $query->bindParam(":subgroup", $subgroup_id);
+        $query->execute();
+        return ($this->buildSimpleObjects($query->fetchAll(PDO::FETCH_ASSOC)));
+    }
+    
     public function getSingleDataValue($id) {
         $sql = "SELECT ".$this->allParams(); 
         $sql .= "FROM data value ";
@@ -313,10 +328,11 @@ class DatacenterDao implements DatacenterRepository{
         return null;
     }
 
-    public function totalValues() {
+    public function totalValues($subgroup = null) {
         $statement = "SELECT COUNT(*) AS total FROM data";
-        
+        if($subgroup != null) $statement .= " WHERE subgroup_id = :subgroup";
         $query = $this->session->prepare($statement);
+        if($subgroup != null) $query->bindParam (":subgroup", $subgroup);
         $query->execute();
         $result = $query->fetch(PDO::FETCH_ASSOC);
         return $result['total'];                

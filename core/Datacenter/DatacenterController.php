@@ -160,12 +160,14 @@ class DatacenterController {
         return $countries;
     }
     
-    public function listData($page) {
-        return $this->datacenterService->getAllValues($this->calculateLimits($page), self::$LIMIT_PER_PAGE);
+    public function listData($page, $subgroup_id = null) {
+        if(is_null($subgroup_id))
+            return $this->datacenterService->getAllValues($this->calculateLimits($page), self::$LIMIT_PER_PAGE);
+        return $this->datacenterService->getAllValuesBySubgroup($this->calculateLimits($page), self::$LIMIT_PER_PAGE, $subgroup_id);
     }
     
-    public function total(){
-        return $this->datacenterService->gelTotalValues();
+    public function total($subgroup = null){
+        return $this->datacenterService->gelTotalValues($subgroup);
     }
     
     public function getSingleDataValue($id){        
