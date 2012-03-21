@@ -13,6 +13,7 @@
     
     $object = new Country($_POST['name']);
     $object->setId($country_id);
+    if(isset($_POST['reexport']) && $_POST['reexport'] == true) $object->setReexport ();   
     if($controller->editCountry($object)){
         print_r($json->response(true, "País editado com sucesso!")->serialize());
     }else{

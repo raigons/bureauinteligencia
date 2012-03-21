@@ -14,9 +14,9 @@
                     <option value="destiny">Destino</option>
                 </select>                
             </div>
-            <div class="field">
+            <div class="field" style="text-align: right">
                 <label for="reexport">Reexportação:</label>
-                <input id="reexport" type="checkbox" name="reexport" value="true"/>
+                <input style="width: 20px" id="reexport" type="checkbox" name="reexport" value="true"/>
             </div>
             <button type="submit" class="button-insert">Inserir</button>
         </fieldset>

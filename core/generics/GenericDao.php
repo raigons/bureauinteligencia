@@ -99,7 +99,10 @@ class GenericDao {
     }
     
     public function editCountry(Country $country) {
-        $sql = "UPDATE country SET name = :name WHERE id = :id LIMIT 1";
+        if($country->isReexportCountry())
+            $sql = "UPDATE country SET name = :name, reexport = '1' WHERE id = :id LIMIT 1";
+        else
+            $sql = "UPDATE country SET name = :name, reexport = '0' WHERE id = :id LIMIT 1";
         $query = $this->session->prepare($sql);
         $query->bindParam(":name", utf8_decode($country->name()));
         $query->bindParam(":id", $country->id());        
@@ -131,7 +134,9 @@ class GenericDao {
         $query->execute();
         $country = $query->fetch(PDO::FETCH_ASSOC);
         if($query->rowCount() > 0){
-           return new Country(utf8_encode($country['name']), $country['id']);
+           $c = new Country(utf8_encode($country['name']), $country['id']);
+           if(isset($country['reexport']) && $country['reexport'] == 1) $c->setReexport ();
+           return $c; 
         }
         return null;
     }
