@@ -182,7 +182,7 @@ $(document).ready(function(){
 				advise("Você pode selecionar no máximo 2 campos");
 			} else {
 				// Se a opção selecionada for Todos, desmarca as outras opções
-				if ($(this).html() == 'Todos' || $(this).html() == 'Todas') {
+				if ($(this).html() == 'Todos' || $(this).html() == 'Todas' || $(this).html() == 'Todos (soma)') {
 					$(this).parents('ul').find('li.sel').removeClass('sel').css('background', 'none');
 				} else {
 					// Senão, procura por uma opção todos marcada
