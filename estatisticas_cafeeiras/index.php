@@ -243,7 +243,7 @@
                 Se ainda não possui um usuário, 
                 <a style="cursor: pointer; text-decoration: underline; color: #9CD168" 
                    href="<?echo $baseUrl?>/cadastro">clique aqui</a> 
-                para cadastrar.
+                para se cadastrar.
             </strong>
         </center>
         <?endif;?>
