@@ -393,9 +393,14 @@ $(document).ready(function(){
             tableDiv();
             $.getJSON('../datacenter/table', data,
                 function(tables){
-                    $(tables.tabela).each(function(i, table){                                                
-                        $('#table-view').append(montaTabela(table, i));
-                    });
+                	if(tables.status){
+	                    $(tables.tabela).each(function(i, table){                                                
+	                        $('#table-view').append(montaTabela(table, i));
+	                    });                		
+                	}else{
+                		advise(tables.message);
+                		loginMessage(tables.messsage, $('#table-view'));
+                	}
             });
 		}
 	});
@@ -425,9 +430,14 @@ $(document).ready(function(){
             tableStatiticDiv(); 
             $.getJSON('../datacenter/statistics', data, 
                 function(tables){
-                    $(tables.tabela).each(function(i, table){                                                
-                        $('#table-statistic-view').append(montaTabela(table, i));
-                    });
+                	if(tables.status){
+	                    $(tables.tabela).each(function(i, table){                                                
+	                        $('#table-statistic-view').append(montaTabela(table, i));
+	                    });
+                	}else{
+                		advise(tables.message);
+                		loginMessage(tables.message, $('#table-statistic-view'));
+                	}
             });
         }
     });
@@ -694,9 +704,14 @@ $(document).ready(function(){
 			// Tabela
 			$.getJSON('../datacenter/table', data,
 				function(tables){
-					$(tables.tabela).each(function(i, table){
-						$('#table-view').append(montaTabela(table, i));
-					});
+					if(tables.status){
+						$(tables.tabela).each(function(i, table){
+							$('#table-view').append(montaTabela(table, i));
+						});
+					}else{
+						advise(tables.message);
+						loginMessage(tables.message, $("#table-view"))
+					}
 				});
 		} else if ($('#tab-2.sel').length == 1) {
 			// Grafico
@@ -716,9 +731,14 @@ $(document).ready(function(){
 	        tableStatiticDiv(); 
 	        $.getJSON('../datacenter/statistics', data, 
 	            function(tables){
-	                $(tables.tabela).each(function(i, table){                                                
-	                    $('#table-statistic-view').append(montaTabela(table, i));
-	                });
+	            	if(tables.status){	            		
+		                $(tables.tabela).each(function(i, table){                                                
+		                    $('#table-statistic-view').append(montaTabela(table, i));
+		                });
+	            	}else{
+	            		advise(tables.message);
+	            		loginMessage(tables.message, $('$table-statistic-view'));
+	            	}
 	            });                        
 		}
 		
@@ -743,6 +763,9 @@ function mostraPlanilha(json){
         var link = "<a class='spreadsheet-link' href='"+json.planilha+"'>"+spreadsheetFilename+"</a>";
         $("#spreadsheet-view").append(json.asHtml);
         $("#spreadsheet-link").append("<span class='spreadsheet'>Clique aqui para baixar sua planilha: " + link + "</span>");
+    }else{
+    	advise(json.message);
+    	loginMessage(json.message, $("#spreadsheet-link"));
     }
 }
 
@@ -801,6 +824,7 @@ function mostraGrafico(json) {
 	$('#content-2').html('<div id="grafico"></div>');
 	if (json.status == false) {
 		advise('Houve um problema na geração do gráfico: ' + json.message);
+		loginMessage(json.message, $("#grafico"));
 	} else {
 		var myChart = new FusionCharts( "fusion/"+json.typeChart, "myChartId", "730", "413", "0", "1" );
 		myChart.setDataXML(json.chart);
@@ -812,4 +836,12 @@ function advise(text) {
 	$('#advise p').html(text);
 	$('#advise').css('margin-top', (-1 * $('#advise').height()) + 'px');
 	$('#advise').show();
+}
+
+function loginMessage(message, $div){
+	var html = "<strong class=>";
+	html += message;
+	html += "</strong>";
+
+	$div.html(html);
 }

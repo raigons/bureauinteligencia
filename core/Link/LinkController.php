@@ -383,8 +383,8 @@ class LinkController {
         if(strpos(self::link(), "?") !== false)
             $link = substr(self::link(), 0, strpos(self::link(), "?"));
         else
-            $link = self::link();
-        if(Session::isLogged() || $link == 'login' || isset ($_REQUEST['no-must-online'])){
+            $link = self::link();        
+        if(Session::isLogged() || $link == 'login' || isset ($_REQUEST['no-must-online']) || strpos($link, "datacenter/") >= 0){
             if(self::$map_requests->containsKey($link)){
                 if(file_exists(self::$map_requests->get($link))){                    
                     return self::$map_requests->get($link);
