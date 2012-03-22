@@ -69,19 +69,31 @@ class DatacenterController {
     }
     
     public function getReport(DataParam $dataParam, array $years){
-        $asJson = $this->asJson;
-        $this->asJson = false;
-        $values = $this->getValues($dataParam,$years);
-        $this->asJson = $asJson;
-        return $this->report->getReport($values, $years, $this->grouper);
+        try{
+            $asJson = $this->asJson;
+            $this->asJson = false;
+            $values = $this->getValues($dataParam,$years);
+            $this->asJson = $asJson;
+            return $this->report->getReport($values, $years, $this->grouper);
+        }catch(LoginException $exception){
+            return $this->loginExceptionMessage($exception);
+        }
+    }
+    
+    private function loginExceptionMessage(LoginException $exception){
+        return $this->jsonResponse->response(false, $exception->getMessage())->serialize();
     }
     
     public function getDistinctGroupReport($g1, $g2, array $years){
-        $values1 = $this->getValues($g1,$years);
-        $values2 = $this->getValues($g2,$years);
-        $values1 = $this->getListAsAnArrayObject($values1);
-        $values2 = $this->getListAsAnArrayObject($values2);
-        return $this->report->getDistinctGroupsReport($values1, $values2,$years,$this->grouper);
+        try{
+            $values1 = $this->getValues($g1,$years);
+            $values2 = $this->getValues($g2,$years);
+            $values1 = $this->getListAsAnArrayObject($values1);
+            $values2 = $this->getListAsAnArrayObject($values2);
+            return $this->report->getDistinctGroupsReport($values1, $values2,$years,$this->grouper);            
+        }catch(LoginException $exception){
+            return $this->loginExceptionMessage($exception);
+        }
     }           
     
     //POST ://datacenter/save
@@ -191,10 +203,14 @@ class DatacenterController {
     }
     
     public function getValues(DataParam $params,array $years = null) {
-        if(!$params->anyValueIsArray()){
-            return $this->getValuesWithSimpleParams($params,$years);
-        }else{            
+        if(Session::isLogged()){
+            if(!$params->anyValueIsArray()){
+                return $this->getValuesWithSimpleParams($params,$years);
+            }else{            
                 return $this->getValuesWithMultipleParams($params,$years);
+            }            
+        }else{
+            throw new LoginException();
         }
     }
     

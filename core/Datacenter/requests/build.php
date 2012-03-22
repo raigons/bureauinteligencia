@@ -12,7 +12,7 @@
         $years = $_GET["ano"];
         if(isset($_GET[0]) && isset($_GET[1])){
             $g1 = $g2 = null;
-            $dataParam = fillParams($_GET[0], $subgroup, $font, $type, $variety, $origin, $destiny, $g1);    
+            $dataParam = fillParams($_GET[0], $subgroup, $font, $type, $variety, $origin, $destiny, $g1);   
             $dataParam2 = fillParams($_GET[1], $subgroup, $font, $type, $variety, $origin, $destiny, $g2);
             $json = $controller->getDistinctGroupReport($dataParam,$dataParam2, $years);
             echo $json;

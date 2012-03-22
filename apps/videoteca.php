@@ -12,7 +12,7 @@
         <span class="refreshing-app" style="display: none">
             <img 
                 src="<?echo LinkController::getBaseURL()?>/images/ajax-refresh-box.gif"/>
-        </span>        
+        </span>
     </h1>
     <div class="app-conteudo">
         <!--<p>Conte&uacute;do do aplicativo Videoteca</p>-->
