@@ -236,7 +236,17 @@
 	<div id="content-4" class="tabcontent">
 		
 	</div>
-	
+	<?if(!Session::isLogged()):?>
+        <center>
+            <strong style="font-size: 16px">Você deve fazer login para acessar o sistema.
+                <br />
+                Se ainda não possui um usuário, 
+                <a style="cursor: pointer; text-decoration: underline; color: #9CD168" 
+                   href="<?echo $baseUrl?>/cadastro">clique aqui</a> 
+                para cadastrar.
+            </strong>
+        </center>
+        <?endif;?>
 </div>
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/jquery-ui.min.js" type="text/javascript"></script>
