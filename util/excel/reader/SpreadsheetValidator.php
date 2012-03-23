@@ -32,7 +32,7 @@ class SpreadsheetValidator {
             if(isset($line[$col])){
                 $number = (float) str_replace(",","",$line[$col]);
             }else
-                $number = 0;
+                $number = null;
             $line[$col] = $number;
             if(is_string($line[$col])) return false;
         }

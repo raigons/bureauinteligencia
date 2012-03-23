@@ -57,12 +57,14 @@ class DatacenterService {
  
     private function getDataToSave(ArrayObject &$dataToInsert, ArrayObject $years, ExcelInputFile $inputFile, $country, $subgroup, $font, $type, $variety, $origin, $destiny){
         $valuesFromACountry = $inputFile->getValuesFromACountry($country);
-        foreach($years as $year){
+        foreach($years as $year){            
             $value = $valuesFromACountry[$country][$year];
-            $value = (float) str_replace(",","",$value);
-            $data = $this->buildDataToInsert($year, $subgroup, $font, $type, $variety, $origin, $destiny);
-            $data->setValue($value);
-            $dataToInsert->append($data);
+            if($value != null){
+                $value = (float) str_replace(",","",$value);
+                $data = $this->buildDataToInsert($year, $subgroup, $font, $type, $variety, $origin, $destiny);
+                $data->setValue($value);
+                $dataToInsert->append($data);                
+            }
         }
     }
  
