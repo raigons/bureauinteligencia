@@ -161,7 +161,7 @@ $(document).ready(function(){
 			});*/	
 	
 	year = new Date();
-	for (i = 1980; i <= year.getFullYear(); i++) {
+	for (i = 1960; i <= year.getFullYear(); i++) {
 		$('#de').append('<option value="'+i+'" '+(i == 1990 ? 'selected=""' : '')+'>'+i+'</option>');
 		$('#ate').append('<option value="'+i+'" '+(i == year.getFullYear() ? 'selected=""' : '')+'>'+i+'</option>');
 	}
