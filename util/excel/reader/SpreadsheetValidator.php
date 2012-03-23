@@ -29,7 +29,10 @@ class SpreadsheetValidator {
     private function lineNumberPatterns(array $line){
         $str = "";
         for($col = 2; $col <= sizeof($line); $col++){
-            $number = (float) str_replace(",","",$line[$col]);            
+            if(isset($line[$col])){
+                $number = (float) str_replace(",","",$line[$col]);
+            }else
+                $number = 0;
             $line[$col] = $number;
             if(is_string($line[$col])) return false;
         }
