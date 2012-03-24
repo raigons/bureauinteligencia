@@ -294,12 +294,22 @@ function eventChangeToCoffeType(){
 var subgroupChange = function(){    
     $("#subgroups").live('change', function(){
        var option = $(this).children("option:selected").text();
-       if(option == 'Preço aos Produtores' || option == 'Preço no Varejo') {
+       if(option == 'Preço aos Produtores' || option == 'Preço no Varejo' || option == 'Câmbio') {
            $("#coffetype").attr("disabled","disabled");
-           $("#coffetype").append('<option value="none"></option>').val('none');
-           if($("varitey").attr("disabled") == undefined){
-               $("#variety").attr("disabled", "disabled");
-               $("#variety").append('<option value="none"></option>').val('none');               
+            if(option == 'Preço no Varejo' || option == '')
+                $("#coffetype").append('<option value="none"></option>').val('none');
+            else
+                $("#coffetype").val('1');      
+           if(option == 'Preço no Varejo'){                
+               if($("#varitey").attr("disabled") == undefined){
+                   $("#variety").attr("disabled", "disabled");
+                   $("#variety").append('<option value="none"></option>').val('none');
+               }
+           }else{
+               if($("#variety").attr("disabled") == 'disabled'){
+                   $("#variety").removeAttr("disabled");
+                   $("#variety option[value='none']").remove();        
+               }
            }
        }else{
            $("#coffetype option[value='none']").remove();

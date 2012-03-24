@@ -65,12 +65,21 @@
 }
 
 #origem ul li.sg, #destino ul li.sg{
-	position: fixed;
-	width: 145px;
+	/*display: none;	*/
+	/*width: 145px;*/
 }
 
 #origem .options ul li:nth-child(2), #destino .options ul li:nth-child(2){
-	margin-top: 20px;
+	/*margin-top: 20px;*/
+}
+
+.title-country{
+	text-align: center;
+	color: #333;
+	background: #ADCE7C;
+	cursor: auto;
+	padding: 0;
+	width: 100%;
 }
 
 #subgrupo .header {
