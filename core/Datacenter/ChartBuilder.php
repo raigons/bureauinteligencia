@@ -23,6 +23,7 @@ class ChartBuilder implements Builder {
     
     public function build($mapWithGroupedValues, array $years) {        
         $this->years($years);
+        $this->xml->addChartAttribute("showValues", "0");
         if(is_array($mapWithGroupedValues)){
             //if($mapWithGroupedValues[0]->containsKey(0) && $mapWithGroupedValues[1]->containsKey(0)){
             $this->setTitleToMultigroupsValuesWhenOneOfThenHasNoValue($mapWithGroupedValues);
