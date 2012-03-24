@@ -64,6 +64,15 @@
 	cursor: auto;
 }
 
+#origem ul li.sg, #destino ul li.sg{
+	position: fixed;
+	width: 145px;
+}
+
+#origem .options ul li:nth-child(2), #destino .options ul li:nth-child(2){
+	margin-top: 20px;
+}
+
 #subgrupo .header {
 	border-radius: 0 5px 0 0;
 }

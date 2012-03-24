@@ -230,19 +230,37 @@ $(document).ready(function(){
 	        var idDoGrupo = idLista.substring(indexOf, idLista.length);
 	        var grupoName = $("#grupo .options").children("ul").children("li#"+idDoGrupo).html();                                              
                                                 
-            $('#origem .options').append($('#origem .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
-			prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());
-
-			if($("#origem").children().find("[id*='dosubgrupo']").length == 1){
+            //origem
+			if($("#origem").children().find("ul[id*='dosubgrupo']").html() == null){
+	            $('#origem .options').append($('#origem .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+				prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());				
+				
 				$("#origem #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 189});
 			}else{
-				var subgrupos = $("#origem").children().find("[id*='dosubgrupo']");
-				var $first_sg = $(subgrupos[0]);
-				var $copy_subgroup = $first_sg.clone();
-				$first_sg.parent().remove();
-				$("#origem .options").prepend($copy_subgroup);
-				$("#origem #"+$copy_subgroup.attr("id")).slimScroll({height: 95, alwaysVisible: true});
-				$("#origem #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 94.5, alwaysVisible: true});
+				var existent_options_id = $("#origem").children().find("ul[id*='dosubgrupo']").attr('id');
+            	existent_options_id = existent_options_id.split('-');
+            	var existent_id_number = existent_options_id[1];
+            	if(parseInt($(this).attr("id")) > parseInt(existent_id_number)){
+            		$('#origem .options').append($('#origem .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+					prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());
+					var subgrupos = $("#origem").children().find("[id*='dosubgrupo']");
+					var $first_sg = $(subgrupos[0]);
+					var $copy_subgroup = $first_sg.clone();
+					$first_sg.parent().remove();
+					$("#origem .options").prepend($copy_subgroup);
+					$("#origem #"+$copy_subgroup.attr("id")).slimScroll({height: 95, alwaysVisible: true});
+					$("#origem #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 94.5, alwaysVisible: true});					
+            	}else{
+            		$('#origem .options').prepend($('#origem .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+					prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());            		
+					var subgrupos = $("#origem").children().find("[id*='dosubgrupo']");
+					var $first_sg = $(subgrupos[1]);
+					var $copy_subgroup = $first_sg.clone();
+					$first_sg.parent().remove();
+					$("#origem .options").append($copy_subgroup);
+					$("#origem #"+$copy_subgroup.attr("id")).slimScroll({height: 95, alwaysVisible: true});
+					$("#origem #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 94.5, alwaysVisible: true});            		
+            	}			
 			}
             if($(this).html() != 'Quantidade Exportada' 
             	&& $(this).html() != 'Quantidade Importada'
@@ -253,30 +271,86 @@ $(document).ready(function(){
             	$("#origem #dosubgrupo-"+$(this).attr("id")).children('li.reexport').show();
             }
 
-            $('#destino .options').append($('#destino .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
-			prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());
-            
-            if($("#destino").children().find("[id*='dosubgrupo']").length == 1){
-            	$("#destino #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 189});
-            }else{
-				var subgrupos = $("#destino").children().find("[id*='dosubgrupo']");
-				var $first_sg = $(subgrupos[0]);
-				var $copy_subgroup = $first_sg.clone();
-				$first_sg.parent().remove();
-				$("#destino .options").prepend($copy_subgroup);
-				$("#destino #"+$copy_subgroup.attr("id")).slimScroll({height: 95, alwaysVisible: true});
-            	$("#destino #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 94.5, alwaysVisible: true});
-            }            
 
-			$('#variedade .options').append($('#variedade .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
-			prepend('<li class="sg">'+$(this).html()+'</li>'));//.show());
-			
-			$('#tipo .options').append($('#tipo .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
-			prepend('<li class="sg">'+$(this).html()+'</li>').show());
+            //destino
+            if($("#destino").children().find("ul[id*='dosubgrupo']").html() == null){
+	            $('#destino .options').append($('#destino .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+				prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());
+				$("#destino #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 189});
+            }else{
+				var existent_options_id = $("#destino").children().find("ul[id*='dosubgrupo']").attr('id');
+            	existent_options_id = existent_options_id.split('-');
+            	var existent_id_number = existent_options_id[1];
+            	if(parseInt($(this).attr("id")) > parseInt(existent_id_number)){
+            		$('#destino .options').append($('#destino .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+					prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());
+					
+					var subgrupos = $("#destino").children().find("[id*='dosubgrupo']");
+					var $first_sg = $(subgrupos[0]);
+					var $copy_subgroup = $first_sg.clone();
+					$first_sg.parent().remove();
+					$("#destino .options").prepend($copy_subgroup);
+					$("#destino #"+$copy_subgroup.attr("id")).slimScroll({height: 95, alwaysVisible: true});
+	            	$("#destino #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 94.5, alwaysVisible: true});
+            	}else{
+            		$('#destino .options').prepend($('#destino .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+					prepend('<li class="sg" grupo="'+grupoName+'">'+$(this).html()+'</li>').show());
+
+					var subgrupos = $("#destino").children().find("[id*='dosubgrupo']");
+					var $first_sg = $(subgrupos[1]);
+					var $copy_subgroup = $first_sg.clone();
+					$first_sg.parent().remove();
+					$("#destino .options").append($copy_subgroup);
+					$("#destino #"+$copy_subgroup.attr("id")).slimScroll({height: 95, alwaysVisible: true});
+	            	$("#destino #dosubgrupo-"+$(this).attr("id")).slimScroll({height: 94.5, alwaysVisible: true});					
+            	}
+            }
+
+            if($("#variedade").children().find("ul[id*='dosubgrupo']").html() == null){
+            	$('#variedade .options').append($('#variedade .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+					prepend('<li class="sg">'+$(this).html()+'</li>'));//.show());	
+		    }else{
+				var existent_options_id = $("#variedade").children().find("ul[id*='dosubgrupo']").attr('id');
+            	existent_options_id = existent_options_id.split('-');
+            	var existent_id_number = existent_options_id[1];
+            	if(parseInt($(this).attr("id")) > parseInt(existent_id_number)){
+            		$('#variedade .options').append($('#variedade .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+						prepend('<li class="sg">'+$(this).html()+'</li>'));//.show());
+            	}else{
+            		$('#variedade .options').prepend($('#variedade .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+						prepend('<li class="sg">'+$(this).html()+'</li>'));//.show());
+            	}
+		    }
+								            
+            if($("#tipo").children().find("ul[id*='dosubgrupo']").html() == null){
+            	$('#tipo .options').append($('#tipo .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+					prepend('<li class="sg">'+$(this).html()+'</li>').show());	
+            }else{            	
+            	var existent_options_id = $("#tipo").children().find("ul[id*='dosubgrupo']").attr('id');
+            	existent_options_id = existent_options_id.split('-');
+            	var existent_id_number = existent_options_id[1];
+            	if(parseInt($(this).attr("id")) > parseInt(existent_id_number)){
+            		$('#tipo .options').append($('#tipo .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+						prepend('<li class="sg">'+$(this).html()+'</li>').show());
+            	}else{
+            		$('#tipo .options').prepend($('#tipo .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+						prepend('<li class="sg">'+$(this).html()+'</li>').show());
+            	}
+            }			
                                                        
             $('#fonte .options').append($('#fonte .model ul#fonte_grupo_'+idDoGrupo).clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
 			prepend('<li class="sg">'+$(this).html()+'</li>').show());
+			
+			if($(this).html() == 'Consumo (Interno)'){ //|| $(this).html() == 'Consumo (Interno)'){
+				$('#destino #dosubgrupo-'+$(this).attr('id').replace('ordogrupo', 'dedogrupo')).addClass('nosel');
+			}
+			if($(this).html() == 'Consumo'){
+				$('#origem #dosubgrupo-'+$(this).attr('id').replace('dedogrupo', 'ordogrupo')).addClass('nosel');
+			}
 
+			if($(this).html() == 'Preço aos Produtores'){
+				$('#destino #dosubgrupo-'+$(this).attr('id').replace('dedogrupo', 'ordogrupo')).addClass('nosel');	
+			}
 
 		} else {                                                			
 			$('#origem #dosubgrupo-'+$(this).attr('id')).parent('.slimScrollDiv').remove();			
@@ -310,20 +384,28 @@ $(document).ready(function(){
 	$('#origem .options ul li').live('click', function(){
 		if ($(this).parents('ul').find('.sel').length > 0) {
 			//if ($(this).parents('ul').find('.sg').html() == 'Oferta'
-            if($(this).parents('ul').find('.sg').attr('grupo') == 'Oferta'
+            if(($(this).parents('ul').find('.sg').attr('grupo') == 'Oferta'
 			 //|| $(this).parents('ul').find('.sg').html() == 'Demanda'
             || $(this).parents('ul').find('.sg').attr('grupo') == 'Demanda'
 			 //|| $(this).parents('ul').find('.sg').html() == 'Indicadores Econômicos') {
-            || $(this).parents('ul').find('.sg').attr('grupo') == 'Indicadores Econômicos'){
+            || $(this).parents('ul').find('.sg').attr('grupo') == 'Indicadores Econômicos')
+        	
+	        && ($(this).parents('ul').find('.sg').html() != 'Consumo' 
+	        && $(this).parents('ul').find('.sg').html() != 'Consumo (Interno)'
+	    	&& $(this).parents('ul').find('.sg').html() != 'Preço aos Produtores')) {
 	            $('#destino #'+$(this).parents('ul').attr('id').replace('ordogrupo', 'dedogrupo')).addClass('nosel');
 			}
 		} else {
 			//if ($(this).parents('ul').find('.sg').html() == 'Oferta'
-         	if($(this).parents('ul').find('.sg').attr('grupo') == 'Oferta'
+         	if(($(this).parents('ul').find('.sg').attr('grupo') == 'Oferta'
 			 //|| $(this).parents('ul').find('.sg').html() == 'Demanda'
             || $(this).parent('ul').find('.sg').attr('grupo') == 'Demanda'
 			 //|| $(this).parents('ul').find('.sg').html() == 'Indicadores Econômicos') {
-            || $(this).parents('ul').find('.sg').attr('grupo')== 'Demanda'){
+            || $(this).parents('ul').find('.sg').attr('grupo')== 'Indicadores Econômicos') 
+
+            && ($(this).parents('ul').find('.sg').html() != 'Consumo' 
+            && $(this).parents('ul').find('.sg').html() != 'Consumo (Interno)'
+        	&& $(this).parents('ul').find('.sg').html() != 'Preço aos Produtores')) {
 				$('#destino #'+$(this).parents('ul').attr('id').replace('ordogrupo', 'dedogrupo')).removeClass('nosel');
 			}
 		}
@@ -332,20 +414,28 @@ $(document).ready(function(){
 	$('#destino .options ul li').live('click', function(){
 		if ($(this).parents('ul').find('.sel').length > 0) {
 			//if ($(this).parents('ul').find('.sg').html() == 'Oferta'
-        	if( $(this).parents('ul').find('.sg').attr('grupo') == 'Oferta'
+        	if(($(this).parents('ul').find('.sg').attr('grupo') == 'Oferta'
 			 //|| $(this).parents('ul').find('.sg').html() == 'Demanda'
             || $(this).parents('ul').find('.sg').attr('grupo') == 'Demanda'
 			 //|| $(this).parents('ul').find('.sg').html() == 'Indicadores Econômicos') {
-            || $(this).parents('ul').find('.sg').attr('grupo') == 'Indicadores Econômicos'){ 
+            || $(this).parents('ul').find('.sg').attr('grupo') == 'Indicadores Econômicos')
+
+        	&& ($(this).parents('ul').find('.sg').html() != 'Consumo' 
+        	&& $(this).parents('ul').find('.sg').html() != 'Consumo (Interno)'
+        	&& $(this).parents('ul').find('.sg').html() != 'Preço aos Produtores')) { 
 				$('#origem #'+$(this).parents('ul').attr('id').replace('dedogrupo', 'ordogrupo')).addClass('nosel');
 			}
 		} else {
 			//if ($(this).parents('ul').find('.sg').html() == 'Oferta'
-        	if ($(this).parents('ul').find('.sg').attr('grupo') == 'Oferta'
+        	if (($(this).parents('ul').find('.sg').attr('grupo') == 'Oferta'
 			 //|| $(this).parents('ul').find('.sg').html() == 'Demanda'
             || $(this).parents('ul').find('.sg').attr('grupo') == 'Demanda'
 			 //|| $(this).parents('ul').find('.sg').html() == 'Indicadores Econômicos') {
-            || $(this).parents('ul').find('.sg').attr('grupo') == 'Indicadores Econômicos'){ 
+            || $(this).parents('ul').find('.sg').attr('grupo') == 'Indicadores Econômicos')
+
+	        && ($(this).parents('ul').find('.sg').html() != 'Consumo' 
+	        && $(this).parents('ul').find('.sg').html() != 'Consumo (Interno)'
+	    	&& $(this).parents('ul').find('.sg').html() != 'Preço aos Produtores')) { 
 				$('#origem #'+$(this).parents('ul').attr('id').replace('dedogrupo', 'ordogrupo')).removeClass('nosel');
 			}
 		}

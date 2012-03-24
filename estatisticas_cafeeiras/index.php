@@ -4,6 +4,7 @@
     require_once '../util/Session.php';
     require_once '../core/User/User.php';
     $baseUrl = LinkController::getBaseURL();
+    //Session::login(new User("ramonox", "ramonox"));
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -68,12 +69,30 @@
 	                        <!-- MENU SUPERIOR        -->
 	                        <!-- #################### -->
 	                        <div class="grid_12 menu-superior" style="float:right;">
-	                            <a href="">Quem Somos</a> | <a href="">Ajuda</a> | <a href="">Contato</a> | <a href="?restaurar">Restaurar</a> |
+	                            <a href="">Quem Somos</a> | <a href="">Ajuda</a> | <a href="">Contato</a> | 
                                     <?if(!Session::isLogged()):?>
                                     <a href="<?echo $baseUrl;?>/cadastro" class="l1">Cadastre-se</a>
                                     <?endif;?>
                                 </div>
 	                        <div class="clear"></div>
+                                
+                                <div id="on-right">
+                                    <!-- form login -->
+                                    <div class="grid_7 form-login" id="form-login-main">
+                                        <form action="<?echo $baseUrl?>/login" method="POST">
+                                            <?if(Session::isLogged()):?>
+                                            Usuário: <input name="username" type="text" value="<?echo Session::getLoggedUser()->username()?>" class="inpt-txt" /><br />
+                                            Senha: <input name="password" type="password" value="xxxxx" class="inpt-txt" /><br />
+                                            <a href="<?echo $baseUrl?>/logout" class="l1" id="logout">sair</a>
+                                            <?else:?>
+                                            Usuário: <input name="username" type="text" value="" class="inpt-txt" /><br />
+                                            Senha: <input name="password" type="password" class="inpt-txt" /><br />
+                                            <input type="hidden" name="redirect_to_datacenter" value="true"/>
+                                            <input type="submit" value="login" id="bt-logar" />
+                                            <?endif;?>
+                                        </form>
+                                    </div>
+                                </div>
 	                    </div>
 	                <!-- Fim Topo -->
 	                </div>
