@@ -50,7 +50,8 @@ class ExcelInputFile {
         $years = $this->getYears();
         foreach($years as $year){
             $colNumber = $this->getColumnNumberOfAYear($year);
-            $associativeValueToYear[$year] = $countryLine[$colNumber];            
+            if(isset($countryLine[$colNumber]))
+                $associativeValueToYear[$year] = $countryLine[$colNumber];            
         }        
         $values[$country] = $associativeValueToYear; 
         return $values;

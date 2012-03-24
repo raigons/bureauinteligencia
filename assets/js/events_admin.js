@@ -210,6 +210,7 @@ function listValuesToDatacenterSelects(){
     listCoffeTypeToDatacenter(request, url, data,$("select#coffetype"));
     listDestiniesToDatacenter(request, url, data, $("select#destiny"));
     listOriginToDatacenter(request,url, data, $("select#origin"));
+    subgroupChange();
 }
 function listGroupsToDatacenter(request, url, data, $select){
     if($select.html() != null){
@@ -288,6 +289,23 @@ function eventChangeToCoffeType(){
             $("#variety").append('<option value="none"></option>').val('none');
         }
     });
+}
+
+var subgroupChange = function(){    
+    $("#subgroups").live('change', function(){
+       var option = $(this).children("option:selected").text();
+       if(option == 'Preço aos Produtores' || option == 'Preço no Varejo') {
+           $("#coffetype").attr("disabled","disabled");
+           $("#coffetype").append('<option value="none"></option>').val('none');
+           if($("varitey").attr("disabled") == undefined){
+               $("#variety").attr("disabled", "disabled");
+               $("#variety").append('<option value="none"></option>').val('none');               
+           }
+       }else{
+           $("#coffetype option[value='none']").remove();
+           $("#coffetype").removeAttr("disabled");
+       }
+    });  
 }
 
 function listDestiniesToDatacenter(request,url,data,$select){
@@ -395,7 +413,7 @@ function eventInsertDataWithFile(){
     $(".button-insert-paper, .button-insert-spreadsheet").click(function(){                
         var $form = $(this).parents("form");
         removeErrors($form);
-        var validResponse = valid($form);
+        var validResponse = valid($form);        
         if(validResponse.valid){            
             var data = getData($(this).attr("class"));
             var request = AdminAjax();

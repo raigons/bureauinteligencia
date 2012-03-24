@@ -22,7 +22,7 @@
                     <option value=""></option>
                 </select>
                 <label>Origem</label>
-                <select id="origin">
+                <select id="origin" type="select-one">
                     <option value=""></option>
                 </select>
                 <label>Destino</label>

@@ -16,6 +16,8 @@ if(RequestsPatterns::postParamsSetted('subgroup', 'font', 'coffetype', 'variety'
         $subgroup = $_POST['subgroup'];
         $font = $_POST['font'];
         $coffeType = $_POST['coffetype'];
+        if($coffeType == 'none') $coffeType = 0;
+        
         $variety = $_POST['variety'];
         
         if($variety == "none") $variety = 0;

@@ -117,14 +117,14 @@ class DatacenterDao implements DatacenterRepository{
                 else
                     $origin = new Country("-");
             else
-                $origin = new Country("Todos");
+                $origin = new Country("-");
             if(isset($value['destiny']))
                 if($value['destiny'] != null)
                     $destiny = new Country($value['destiny']);
                 else
                     $destiny = new Country('-');
             else
-                $destiny = new Country("Todos");
+                $destiny = new Country("-");
             
             $data = new Data($value['ano'], $subgroup, $font, $type, $variety, $origin, $destiny);
             $data->setValue($value['value']);

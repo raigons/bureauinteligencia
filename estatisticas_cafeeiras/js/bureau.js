@@ -271,7 +271,6 @@ $(document).ready(function(){
             	$("#origem #dosubgrupo-"+$(this).attr("id")).children('li.reexport').show();
             }
 
-
             //destino
             if($("#destino").children().find("ul[id*='dosubgrupo']").html() == null){
 	            $('#destino .options').append($('#destino .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
@@ -337,7 +336,12 @@ $(document).ready(function(){
 						prepend('<li class="sg">'+$(this).html()+'</li>').show());
             	}
             }			
-                                                       
+   			//esconder os tipos quando selecionar preços
+            if($(this).html() == 'Preço aos Produtores' || $(this).html() == 'Preço no Varejo'){
+				$('#tipo #dosubgrupo-'+$(this).attr('id').replace('dedogrupo', 'ordogrupo')).addClass('nosel');
+				$('#variedade #dosubgrupo-'+$(this).attr('id').replace('dedogrupo', 'ordogrupo')).addClass('nosel');
+            }   
+                                                                
             $('#fonte .options').append($('#fonte .model ul#fonte_grupo_'+idDoGrupo).clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
 			prepend('<li class="sg">'+$(this).html()+'</li>').show());
 			
@@ -590,6 +594,9 @@ $(document).ready(function(){
 				});
 			} else {
 				data.tipo = $('#tipo .options li.sel').attr('id');
+				if(data.tipo == undefined){
+					data.tipo = 0;
+				}
 			}
 
 			if ($('#variedade .options li.sel').length > 1) {
@@ -650,7 +657,7 @@ $(document).ready(function(){
 				}
 			}else{
 				if (data.subgrupo == undefined
-					|| data.tipo == undefined					
+					//|| data.tipo == undefined					
 					|| data.fonte == undefined
 					|| data.ano == undefined) {
 					advise('É necessário selecionar os campos corretamente.');
