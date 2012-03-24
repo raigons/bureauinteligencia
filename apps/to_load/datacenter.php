@@ -11,7 +11,8 @@
         <div class="app-content-body">
             <div id="show-datacenter">
                 <?if(Session::isLogged()):?>
-                <a class="link-datacenter" href="<?echo LinkController::getBaseURL()?>/estatisticas_cafeeiras" target="_blank">
+                <img style="position: relative; top: 5px" src="<?echo LinkController::getBaseURL()?>/images/statistics_icon.png"/>
+                <a class="link-datacenter" href="<?echo LinkController::getBaseURL()?>/estatisticas_cafeeiras" target="_blank">                    
                     Estatísticas Cafeeiras
                 </a>
                 <?else:?>
