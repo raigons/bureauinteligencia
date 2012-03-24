@@ -289,12 +289,13 @@ a.spreadsheet-link{
 	top: 0;
 	left: 50%;
 	margin-left: -50px;
-	background: #fff url('../img/loading.gif') no-repeat 1px 3px;
+	background: #000 url('../img/loading.gif') no-repeat 1px 3px;
 	padding: 2px 2px 2px 20px;
 	width: 80px;
 	border-radius: 0 0 5px 5px;
 	opacity: 0.8;
 	display: none;
+	color: #FFFFFF;
 }
 
 #advise {
