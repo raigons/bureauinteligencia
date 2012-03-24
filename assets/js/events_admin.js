@@ -313,7 +313,8 @@ function listDestiniesToDatacenter(request,url,data,$select){
         data.type = 'destiny';
         request.list_to_select(url, $select, data);
         $select.ajaxStop(function(){
-            $(this).append("<option value='-1'>Agrupados</option>");
+            $select.find("option[value='-2']").remove();
+            $(this).append("<option value='-2'>Todos</option>");
             eventDisableCountrySelect($(this)); 
         });
     }
@@ -342,7 +343,8 @@ function listOriginToDatacenter(request,url,data,$select){
         data.type = 'origin';
         request.list_to_select(url, $select, data);
         $select.ajaxStop(function(){
-            $(this).append("<option value='-1'>Agrupados</option>");
+            $select.find("option[value='-1']").remove();
+            $(this).append("<option value='-1'>Todos</option>");
             eventDisableCountrySelect($(this));
         });
     }

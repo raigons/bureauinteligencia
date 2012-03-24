@@ -126,22 +126,27 @@ $(document).ready(function(){
 	$.getJSON('../datacenter/param', {type: "origin"},//, id: null},
 		function(data){
 			$(data).each(function(i, param){
-				if(param.reexport == true)
-					$('#origem .model ul').append('<li id="'+param.id+'" class="reexport">'+param.name+'</li>').hide();
-				else
-					$('#origem .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();
+				if(param.name != 'Outros' && param.name != 'Todos'){
+					if(param.reexport == true)
+						$('#origem .model ul').append('<li id="'+param.id+'" class="reexport">'+param.name+'</li>').hide();
+					else
+						$('#origem .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();					
+				}
 			});
 			//$('#origem .model ul').append('<li id="all">Todos (soma)</li>');
-			$('#origem .model ul').append('<li id="-1">Todos</li>');			
+			$('#origem .model ul').append('<li id="7">Outros</li>');
+			$('#origem .model ul').append('<li id="-1">Todos</li>');
 		});
 
 	$.getJSON('../datacenter/param', {type: "destiny"},//, id: null},
 		function(data){
 			$(data).each(function(i, param){
-				$('#destino .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();
+				if(param.name != 'Outros' && param.name != 'Todos')
+					$('#destino .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();
 			});
 			//$('#destino .model ul').append('<li id="all">Todos (soma)</li>');
-			$('#destino .model ul').append('<li id="-1">Todos</li>');
+			$('#origem .model ul').append('<li id="14">Outros</li>');
+			$('#destino .model ul').append('<li id="-2">Todos</li>');
 		});
 	
 	/*var dates = $( "#from, #to" ).datepicker({
