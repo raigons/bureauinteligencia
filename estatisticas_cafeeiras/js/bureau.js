@@ -131,7 +131,7 @@ $(document).ready(function(){
 				else
 					$('#origem .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();
 			});
-			$('#origem .model ul').append('<li id="all">Todos (soma)</li>');
+			//$('#origem .model ul').append('<li id="all">Todos (soma)</li>');
 			$('#origem .model ul').append('<li id="-1">Todos</li>');			
 		});
 
@@ -140,7 +140,7 @@ $(document).ready(function(){
 			$(data).each(function(i, param){
 				$('#destino .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();
 			});
-			$('#destino .model ul').append('<li id="all">Todos (soma)</li>');
+			//$('#destino .model ul').append('<li id="all">Todos (soma)</li>');
 			$('#destino .model ul').append('<li id="-1">Todos</li>');
 		});
 	
