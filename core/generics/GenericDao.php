@@ -202,6 +202,8 @@ class GenericDao {
             $sql .= "ORDER BY nome ASC";
         elseif($dependenceName == 'area_id')
             $sql .= "ORDER BY name ASC";        
+        elseif($dependenceName == 'type_country')
+            $sql .= "ORDER BY name ASC";
         else{
             $sql .= "ORDER BY id ASC";
         }

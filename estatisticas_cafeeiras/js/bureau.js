@@ -145,7 +145,7 @@ $(document).ready(function(){
 					$('#destino .model ul').append('<li id="'+param.id+'">'+param.name+'</li>').hide();
 			});
 			//$('#destino .model ul').append('<li id="all">Todos (soma)</li>');
-			$('#origem .model ul').append('<li id="14">Outros</li>');
+			$('#destino .model ul').append('<li id="14">Outros</li>');
 			$('#destino .model ul').append('<li id="-2">Todos</li>');
 		});
 	
@@ -348,9 +348,17 @@ $(document).ready(function(){
 				//$('#variedade #dosubgrupo-'+$(this).attr('id').replace('dedogrupo', 'ordogrupo')).addClass('nosel');
             }
             if($(this).html() == 'Preço aos Produtores' || $(this).html() == 'Câmbio'){
-				$("#tipo #dosubgrupo-"+$(this).attr('id')).children("li#1").addClass('sel')
-        		$('#variedade .options').append($('#variedade .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
-					prepend('<li class="sg">'+$(this).html()+'</li>').show());
+            	$("#tipo #dosubgrupo-"+$(this).attr('id')).children("li#1").addClass('sel')
+            	var existent_options_id = $("#variedade").children().find("ul[id*='dosubgrupo']").attr('id');
+            	existent_options_id = existent_options_id.split('-');
+            	var existent_id_number = existent_options_id[1];            	
+            	if(parseInt($(this).attr("id")) > parseInt(existent_id_number)){
+        			$('#variedade .options').append($('#variedade .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+					prepend('<li class="sg">'+$(this).html()+'</li>').show());            		
+            	}else{
+        		$('#variedade .options').prepend($('#variedade .model ul').clone().attr('id', 'dosubgrupo-'+$(this).attr('id')).
+					prepend('<li class="sg">'+$(this).html()+'</li>').show());            		
+            	}
             }   
 
                                                                 
